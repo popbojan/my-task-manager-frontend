@@ -50,3 +50,54 @@ This project intentionally uses plain CSS instead of SCSS.
 The goal is to strengthen and master core CSS fundamentals, including layout systems (Flexbox, Grid), specificity, cascade behavior, and responsive design — without relying on preprocessors.
 
 Understanding the foundation before adding abstraction layers is a deliberate learning choice.
+
+# OpenAPI Client Generation
+
+This project follows a contract-first approach.
+
+The OpenAPI specification is stored in a separate GitHub repository.  
+The API client is generated from that specification and should never be edited manually.
+
+---
+
+## Install the OpenAPI Specification
+
+```bash
+npm install github:popbojan/my-task-manager-spec
+```
+
+```
+npm install -D @openapitools/openapi-generator-cli
+```
+
+```
+npx openapi-generator-cli generate \
+  -i node_modules/@popbojan/task-manager-contract/openapi.yaml \
+  -g javascript \
+  -o src/api/generated
+```
+
+Add this to your package.json:
+
+```
+"scripts": {
+"generate:api": "openapi-generator-cli generate -i node_modules/@popbojan/task-manager-contract/openapi.yaml -g javascript -o src/api/generated"
+}
+```
+
+Then regenerate with:
+
+```
+npm run generate:api
+```
+
+Add to .gitignore:
+
+```
+src/api/generated/
+```
+
+
+
+
+
