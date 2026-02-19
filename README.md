@@ -42,3 +42,11 @@ While TypeScript is highly valuable in structured backend systems, I prefer Java
 One of the main goals of this project is to strengthen and deepen my understanding of JavaScript itself — especially its runtime behavior, flexibility, and core language mechanics.
 
 The goal is not to follow trends blindly, but to deliberately choose tools based on learning objectives and architectural needs.
+
+## Styling Approach
+
+This project intentionally uses plain CSS instead of SCSS.
+
+The goal is to strengthen and master core CSS fundamentals, including layout systems (Flexbox, Grid), specificity, cascade behavior, and responsive design — without relying on preprocessors.
+
+Understanding the foundation before adding abstraction layers is a deliberate learning choice.
