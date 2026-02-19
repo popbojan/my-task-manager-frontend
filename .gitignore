@@ -25,3 +25,6 @@ dist-ssr
 
 src/api/generated/
 
+.env
+.env.local
+
