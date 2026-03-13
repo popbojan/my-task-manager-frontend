@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate:api": "openapi-generator-cli generate -i node_modules/@popbojan/task-manager-contract/openapi.yaml -g javascript -o src/api/generated"
+    "generate:api": "openapi-generator-cli generate -i node_modules/@popbojan/task-manager-contract/openapi.yaml -g javascript -o src/api/generated --additional-properties=usePromises=true,skipDefaultUserAgent=true"
   },
   "dependencies": {
     "@popbojan/task-manager-contract": "github:popbojan/my-task-manager-spec",
