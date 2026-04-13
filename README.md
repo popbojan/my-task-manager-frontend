@@ -2,21 +2,46 @@
 
 # Technology Decisions
 
-## Frontend – React with JavaScript
+## Frontend – React with JavaScript & TypeScript
 
-This frontend is intentionally written in JavaScript.
+This frontend was initially built in plain JavaScript to focus on mastering core JavaScript and React fundamentals without relying on static typing.
 
-The goal is to deeply understand core JavaScript and React fundamentals without relying on static typing.
+The goal was to deeply understand:
 
-Frontend development typically involves:
+- Runtime behavior
+- State management
+- Component composition
+- UI logic and iteration cycles
 
-- Complex UI logic
-- Fast iteration cycles
-- State experimentation
-- Component design and composition
-- Mastering runtime behavior
+---
 
-JavaScript provides flexibility and reinforces a deeper understanding of how the language works at runtime.
+### Why TypeScript is now introduced
+
+As the project evolved, TypeScript was introduced selectively to improve:
+
+- API integration safety (via OpenAPI code generation)
+- Developer experience (autocomplete, type safety)
+- Maintainability of growing codebase
+
+---
+
+### Philosophy
+
+- Core application logic can remain flexible and JavaScript-like
+- TypeScript is primarily used where it adds **real value**, such as:
+    - API contracts
+    - external system integration
+    - shared data structures
+
+---
+
+### Key Takeaway
+
+This project is not about blindly using TypeScript everywhere.
+
+It is about:
+
+> understanding JavaScript first, and then applying TypeScript where it actually improves the system
 
 ## Backend – Node.js with TypeScript
 
@@ -63,17 +88,17 @@ The API client is generated from that specification and should never be edited m
 ## Install the OpenAPI Specification
 
 ```bash
-npm install github:popbojan/my-task-manager-spec
+npm install github:popbojan/my-task-manager-spec --legacy-peer-deps
 ```
 
 ```
-npm install -D @openapitools/openapi-generator-cli
+npm install -D @openapitools/openapi-generator-cli --legacy-peer-deps
 ```
 
 ```
 npx openapi-generator-cli generate \
   -i node_modules/@popbojan/task-manager-contract/openapi.yaml \
-  -g javascript \
+  -g typescript-fetch \
   -o src/api/generated
 ```
 
@@ -81,7 +106,7 @@ Add this to your package.json:
 
 ```
 "scripts": {
-"generate:api": "openapi-generator-cli generate -i node_modules/@popbojan/task-manager-contract/openapi.yaml -g javascript -o src/api/generated"
+  "generate:api": "openapi-generator-cli generate -i node_modules/@popbojan/task-manager-contract/openapi.yaml -g typescript-fetch -o src/api/generated"
 }
 ```
 
