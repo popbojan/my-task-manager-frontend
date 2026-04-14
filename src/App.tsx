@@ -7,20 +7,19 @@ function AppContent() {
   const { setAccessToken } = useAuth();
   const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    async function refresh() {
-      try {
-        const data = await authApi.refresh();
-        setAccessToken(data.accessToken);
-      } catch (err) {
-        console.log("User not logged in");
-      } finally {
-        setIsAuthLoading(false);
-      }
+useEffect(() => {
+  async function refresh() {
+    try {
+      const data = await authApi.refreshAccessToken();
+      setAccessToken(data.accessToken);
+    } catch (err) {
+    } finally {
+      setIsAuthLoading(false);
     }
+  }
 
-    refresh();
-  }, [setAccessToken]);
+  refresh();
+}, [setAccessToken]);Ω
 
   if (isAuthLoading) {
     return <div>Lade...</div>;
