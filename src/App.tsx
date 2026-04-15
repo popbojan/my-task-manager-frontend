@@ -19,7 +19,7 @@ useEffect(() => {
   }
 
   refresh();
-}, [setAccessToken]);Ω
+}, [setAccessToken]);
 
   if (isAuthLoading) {
     return <div>Lade...</div>;
