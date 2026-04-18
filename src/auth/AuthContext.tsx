@@ -1,32 +1,29 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 
 type AuthContextType = {
   accessToken: string | null;
-  setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setAccessToken: (token: string | null) => void;
+  isAuthReady: boolean;
+  setIsAuthReady: (ready: boolean) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-type AuthProviderProps = {
-  children: ReactNode;
-};
-
-export function AuthProvider({ children }: AuthProviderProps) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [isAuthReady, setIsAuthReady] = useState(false);
 
   return (
-    <AuthContext.Provider value={{ accessToken, setAccessToken }}>
+    <AuthContext.Provider
+      value={{ accessToken, setAccessToken, isAuthReady, setIsAuthReady }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
 export function useAuth(): AuthContextType {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error("useAuth must be used within AuthProvider");
-  }
-
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+  return ctx;
 }

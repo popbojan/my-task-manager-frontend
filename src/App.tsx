@@ -1,31 +1,38 @@
-import { useEffect, useState } from "react";
+import "./app.css";
+import { useEffect } from "react";
 import AppRoutes from "./AppRoutes";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
 import { authApi } from "./api/authClient";
+import Header from "./pages/Header";
 
 function AppContent() {
-  const { setAccessToken } = useAuth();
-  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
+  const { setAccessToken, isAuthReady, setIsAuthReady } = useAuth();
 
-useEffect(() => {
-  async function refresh() {
-    try {
-      const data = await authApi.refreshAccessToken();
-      setAccessToken(data.accessToken);
-    } catch (err) {
-    } finally {
-      setIsAuthLoading(false);
+  useEffect(() => {
+    async function refresh() {
+      try {
+        const data = await authApi.refreshAccessToken();
+        setAccessToken(data.accessToken);
+      } catch {
+        setAccessToken(null);
+      } finally {
+        setIsAuthReady(true);
+      }
     }
-  }
 
-  refresh();
-}, [setAccessToken]);
+    refresh();
+  }, [setAccessToken, setIsAuthReady]);
 
-  if (isAuthLoading) {
+  if (!isAuthReady) {
     return <div>Lade...</div>;
   }
 
-  return <AppRoutes />;
+  return (
+    <>
+      <Header />
+      <AppRoutes />
+    </>
+  );
 }
 
 export default function App() {

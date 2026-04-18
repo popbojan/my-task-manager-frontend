@@ -10,7 +10,8 @@ export default function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/"
+      <Route
+        path="/"
         element={<Navigate to={accessToken ? "/tasks" : "/login"} replace />}
       />
 
