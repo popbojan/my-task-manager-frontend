@@ -5,6 +5,8 @@ import { AuthProvider, useAuth } from "./auth/AuthContext";
 import { authApi } from "./api/authClient";
 import Header from "./pages/Header";
 
+// TODO: make an interceptor so that /auth/refresh is always called, when accessToken expires
+
 function AppContent() {
   const { setAccessToken, isAuthReady, setIsAuthReady } = useAuth();
   const hasInitializedRef = useRef(false);
