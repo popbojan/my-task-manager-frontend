@@ -1,5 +1,5 @@
 import "./app.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import AppRoutes from "./AppRoutes";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
 import { authApi } from "./api/authClient";
@@ -7,8 +7,15 @@ import Header from "./pages/Header";
 
 function AppContent() {
   const { setAccessToken, isAuthReady, setIsAuthReady } = useAuth();
+  const hasInitializedRef = useRef(false);
 
   useEffect(() => {
+    if (hasInitializedRef.current) {
+      return;
+    }
+
+    hasInitializedRef.current = true;
+
     async function refresh() {
       try {
         const data = await authApi.refreshAccessToken();
