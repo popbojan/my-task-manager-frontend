@@ -3,23 +3,65 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
-  background: #1e1e1e;
+  height: 56px;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  background: #ffffff;
+  border-bottom: 1px solid #dfe1e6;
+  box-shadow: 0 1px 3px rgba(9, 30, 66, 0.08);
   z-index: 1000;
 }
 
-.logout-button {
-  background: #ff4d4f;
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  cursor: pointer;
-  border-radius: 4px;
+.app-header__brand {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0052cc;
 }
 
-.logout-button:hover {
-  background: #d9363e;
+.app-header__logout {
+  padding: 0.5rem 0.875rem;
+  border: 1px solid #dfe1e6;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #42526e;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.app-header__logout:hover {
+  background: #f4f5f7;
+  border-color: #0052cc;
+  color: #0052cc;
+}
+
+@media (prefers-color-scheme: dark) {
+  .app-header {
+    background: #22272b;
+    border-bottom-color: #454f59;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  }
+
+  .app-header__brand {
+    color: #579dff;
+  }
+
+  .app-header__logout {
+    background: #282e33;
+    border-color: #454f59;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .app-header__logout:hover {
+    background: #1c2b41;
+    border-color: #579dff;
+    color: #579dff;
+  }
 }

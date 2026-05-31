@@ -1,0 +1,239 @@
+.create-task-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.create-task-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: none;
+  padding: 0;
+  background: rgba(9, 30, 66, 0.45);
+  cursor: pointer;
+}
+
+.create-task-modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(9, 30, 66, 0.25);
+}
+
+.create-task-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.create-task-modal__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #172b4d;
+}
+
+.create-task-modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #5e6c84;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.create-task-modal__close:hover {
+  background: #f4f5f7;
+  color: #172b4d;
+}
+
+.create-task-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.create-task-modal__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.create-task-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.create-task-modal__field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #42526e;
+}
+
+.create-task-modal__field input,
+.create-task-modal__field textarea,
+.create-task-modal__field select {
+  padding: 0.75rem;
+  border: 1px solid #dfe1e6;
+  border-radius: 8px;
+  font: inherit;
+  color: #172b4d;
+  background: #ffffff;
+}
+
+.create-task-modal__field input:focus,
+.create-task-modal__field textarea:focus,
+.create-task-modal__field select:focus {
+  outline: none;
+  border-color: #0052cc;
+  box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.15);
+}
+
+.create-task-modal__field textarea {
+  resize: vertical;
+  min-height: 6rem;
+}
+
+.create-task-modal__error {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #bf2600;
+}
+
+.create-task-modal__state {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #5e6c84;
+}
+
+.create-task-modal__message {
+  margin: 0 0 1.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #42526e;
+}
+
+.create-task-modal__message strong {
+  color: #172b4d;
+}
+
+.create-task-modal__button--danger {
+  background: #de350b;
+  color: #ffffff;
+}
+
+.create-task-modal__button--danger:hover:not(:disabled) {
+  background: #bf2600;
+}
+
+.create-task-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.create-task-modal__button {
+  padding: 0.625rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.create-task-modal__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.create-task-modal__button--secondary {
+  background: #f4f5f7;
+  color: #42526e;
+}
+
+.create-task-modal__button--secondary:hover:not(:disabled) {
+  background: #ebecf0;
+}
+
+.create-task-modal__button--primary {
+  background: #0052cc;
+  color: #ffffff;
+}
+
+.create-task-modal__button--primary:hover:not(:disabled) {
+  background: #0747a6;
+}
+
+@media (prefers-color-scheme: dark) {
+  .create-task-modal__dialog {
+    background: #22272b;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .create-task-modal__title {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .create-task-modal__close {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .create-task-modal__close:hover {
+    background: #282e33;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .create-task-modal__field label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .create-task-modal__field input,
+  .create-task-modal__field textarea,
+  .create-task-modal__field select {
+    border-color: #454f59;
+    background: #1d2125;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .create-task-modal__button--secondary {
+    background: #282e33;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .create-task-modal__button--secondary:hover:not(:disabled) {
+    background: #454f59;
+  }
+
+  .create-task-modal__message {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .create-task-modal__message strong {
+    color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+@media (max-width: 560px) {
+  .create-task-modal__row {
+    grid-template-columns: 1fr;
+  }
+}

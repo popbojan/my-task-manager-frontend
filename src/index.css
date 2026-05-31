@@ -19,13 +19,17 @@ body,
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  color: #213547;
-  background: #ffffff;
+  color: #172b4d;
+  background: #f4f6f8;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     color: rgba(255, 255, 255, 0.87);
-    background: #242424;
+    background: #1d2125;
+  }
+
+  body {
+    background: #1d2125;
   }
 }

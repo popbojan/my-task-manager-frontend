@@ -1,7 +1,9 @@
 body {
   margin: 0;
+  background: #f4f6f8;
 }
 
 #root {
-  padding-top: 60px;
+  padding-top: 56px;
+  min-height: 100%;
 }

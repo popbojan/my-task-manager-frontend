@@ -8,8 +8,9 @@ export default function Header() {
   const navigate = useNavigate();
 
   if (!accessToken) {
-      return null;
+    return null;
   }
+
   const handleLogout = async () => {
     try {
       await authApi.logout();
@@ -23,8 +24,14 @@ export default function Header() {
 
   return (
     <header className="app-header">
-      <button className="logout-button" onClick={handleLogout}>
-        Logout
+      <div className="app-header__brand">Task Manager</div>
+
+      <button
+        type="button"
+        className="app-header__logout"
+        onClick={handleLogout}
+      >
+        Abmelden
       </button>
     </header>
   );
