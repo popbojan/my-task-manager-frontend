@@ -2,10 +2,14 @@
   "name": "my-task-manager-frontend",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "type": "module",
+    "engines": {
+        "node": ">=22"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+    "start": "serve dist -s -l ${PORT:-4173}",
     "lint": "eslint .",
     "preview": "vite preview",
     "generate:api": "openapi-generator-cli generate -i node_modules/@popbojan/task-manager-contract/openapi.yaml -g typescript-fetch -o src/api/generated"
@@ -16,7 +20,8 @@
     "@tanstack/react-query-devtools": "^5.91.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.13.0"
+    "react-router-dom": "^7.13.0",
+    "serve": "^14.2.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

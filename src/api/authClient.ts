@@ -8,7 +8,7 @@ export function setAccessTokenGetter(getter: () => string | null) {
 }
 
 const config = new Configuration({
-  basePath: import.meta.env.VITE_MY_TASK_MANAGER_BACKEND_BASE_URL ?? "http://localhost:8080",
+  basePath: import.meta.env.VITE_MY_TASK_MANAGER_BACKEND_BASE_URL ?? "http://localhost:3001",
   credentials: "include",
   accessToken: async () => accessTokenGetter() ?? "",
 });
