@@ -24,7 +24,7 @@ export default function Header() {
 
   return (
     <header className="app-header">
-      <div className="app-header__brand">Task Manager</div>
+      <div className="app-header__brand">My Task Manager</div>
 
       <button
         type="button"
