@@ -114,26 +114,6 @@ const loginWithOtpMutation = useMutation({
               {loginWithOtpMutation.isPending ? "Prüfe…" : "Einloggen"}
             </button>
 
-            <button
-              className="login-link"
-              type="button"
-              onClick={() => {
-                setStep("email");
-                setOtp("");
-              }}
-            >
-              E-Mail ändern
-            </button>
-
-            <button
-              className="login-link"
-              type="button"
-              onClick={() => requestOtpMutation.mutate()}
-              disabled={requestOtpMutation.isPending}
-            >
-              Code erneut senden
-            </button>
-
             {loginWithOtpMutation.isError && (
               <p className="login-error">OTP ist ungültig oder abgelaufen.</p>
             )}
