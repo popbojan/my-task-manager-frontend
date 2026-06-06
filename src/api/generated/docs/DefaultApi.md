@@ -4,16 +4,95 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**createRecurringTask**](DefaultApi.md#createrecurringtaskoperation) | **POST** /recurring-tasks | Create a new recurring task |
 | [**createTask**](DefaultApi.md#createtaskoperation) | **POST** /tasks | Create a new task |
+| [**deleteRecurringTask**](DefaultApi.md#deleterecurringtask) | **DELETE** /recurring-tasks/{recurringTaskId} | Delete a recurring task |
 | [**deleteTask**](DefaultApi.md#deletetask) | **DELETE** /tasks/{taskId} | Delete a task |
+| [**getRecurringTask**](DefaultApi.md#getrecurringtask) | **GET** /recurring-tasks/{recurringTaskId} | Get a single recurring task |
+| [**getRecurringTaskProgress**](DefaultApi.md#getrecurringtaskprogress) | **GET** /recurring-task-progress | Get recurring task progress for the authenticated user |
+| [**getRecurringTasks**](DefaultApi.md#getrecurringtasks) | **GET** /recurring-tasks | Get recurring tasks for the authenticated user |
 | [**getTask**](DefaultApi.md#gettask) | **GET** /tasks/{taskId} | Get a single task |
 | [**getTasks**](DefaultApi.md#gettasks) | **GET** /tasks | Get tasks for the authenticated user |
 | [**loginWithOtp**](DefaultApi.md#loginwithotp) | **POST** /auth/login-with-otp | Login using an email and the received OTP |
 | [**logout**](DefaultApi.md#logout) | **POST** /auth/logout | Logout user and invalidate refresh token |
 | [**refreshAccessToken**](DefaultApi.md#refreshaccesstoken) | **POST** /auth/refresh | Refresh access token using refresh token cookie |
 | [**requestOtp**](DefaultApi.md#requestotp) | **POST** /auth/request-otp | Request a one-time password via email |
+| [**updateRecurringTask**](DefaultApi.md#updaterecurringtaskoperation) | **PATCH** /recurring-tasks/{recurringTaskId} | Update a recurring task |
 | [**updateTask**](DefaultApi.md#updatetaskoperation) | **PATCH** /tasks/{taskId} | Update a task |
 
+
+
+## createRecurringTask
+
+> RecurringTask createRecurringTask(createRecurringTaskRequest)
+
+Create a new recurring task
+
+Creates a daily, weekly, or monthly recurring task.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '';
+import type { CreateRecurringTaskOperationRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
+
+  const body = {
+    // CreateRecurringTaskRequest
+    createRecurringTaskRequest: ...,
+  } satisfies CreateRecurringTaskOperationRequest;
+
+  try {
+    const data = await api.createRecurringTask(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **createRecurringTaskRequest** | [CreateRecurringTaskRequest](CreateRecurringTaskRequest.md) |  | |
+
+### Return type
+
+[**RecurringTask**](RecurringTask.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** | Recurring task created |  -  |
+| **400** | Invalid request |  -  |
+| **401** | Unauthorized |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## createTask
@@ -87,6 +166,77 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
+## deleteRecurringTask
+
+> deleteRecurringTask(recurringTaskId)
+
+Delete a recurring task
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '';
+import type { DeleteRecurringTaskRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
+
+  const body = {
+    // string
+    recurringTaskId: recurringTaskId_example,
+  } satisfies DeleteRecurringTaskRequest;
+
+  try {
+    const data = await api.deleteRecurringTask(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **recurringTaskId** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+`void` (Empty response body)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **204** | Recurring task deleted |  -  |
+| **401** | Unauthorized |  -  |
+| **403** | Forbidden |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
 ## deleteTask
 
 > deleteTask(taskId)
@@ -154,6 +304,206 @@ example().catch(console.error);
 | **204** | Task deleted |  -  |
 | **401** | Unauthorized |  -  |
 | **403** | Forbidden |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getRecurringTask
+
+> RecurringTask getRecurringTask(recurringTaskId)
+
+Get a single recurring task
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '';
+import type { GetRecurringTaskRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
+
+  const body = {
+    // string
+    recurringTaskId: recurringTaskId_example,
+  } satisfies GetRecurringTaskRequest;
+
+  try {
+    const data = await api.getRecurringTask(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **recurringTaskId** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+[**RecurringTask**](RecurringTask.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Recurring task found |  -  |
+| **401** | Unauthorized |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Recurring task not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getRecurringTaskProgress
+
+> RecurringTaskProgress getRecurringTaskProgress()
+
+Get recurring task progress for the authenticated user
+
+Returns the global streak counter for recurring tasks.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '';
+import type { GetRecurringTaskProgressRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
+
+  try {
+    const data = await api.getRecurringTaskProgress();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**RecurringTaskProgress**](RecurringTaskProgress.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Recurring task progress |  -  |
+| **401** | Unauthorized |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getRecurringTasks
+
+> Array&lt;RecurringTask&gt; getRecurringTasks()
+
+Get recurring tasks for the authenticated user
+
+Returns all recurring tasks owned by the authenticated user.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '';
+import type { GetRecurringTasksRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
+
+  try {
+    const data = await api.getRecurringTasks();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**Array&lt;RecurringTask&gt;**](RecurringTask.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | List of recurring tasks |  -  |
+| **401** | Unauthorized |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -540,6 +890,84 @@ No authorization required
 | **200** | OTP successfully sent |  -  |
 | **400** | Bad Request (e.g. invalid email format) |  -  |
 | **500** | Internal Server Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## updateRecurringTask
+
+> RecurringTask updateRecurringTask(recurringTaskId, updateRecurringTaskRequest)
+
+Update a recurring task
+
+Updates title, description, status, or frequency of a recurring task.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '';
+import type { UpdateRecurringTaskOperationRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
+
+  const body = {
+    // string
+    recurringTaskId: recurringTaskId_example,
+    // UpdateRecurringTaskRequest
+    updateRecurringTaskRequest: ...,
+  } satisfies UpdateRecurringTaskOperationRequest;
+
+  try {
+    const data = await api.updateRecurringTask(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **recurringTaskId** | `string` |  | [Defaults to `undefined`] |
+| **updateRecurringTaskRequest** | [UpdateRecurringTaskRequest](UpdateRecurringTaskRequest.md) |  | |
+
+### Return type
+
+[**RecurringTask**](RecurringTask.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Recurring task updated |  -  |
+| **400** | Invalid request |  -  |
+| **401** | Unauthorized |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Recurring task not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
