@@ -1,0 +1,21 @@
+.recurring-tasks-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 56px);
+  padding: 2rem 1rem;
+}
+
+.recurring-tasks-page__message {
+  margin: 0;
+  color: #6b778c;
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+@media (prefers-color-scheme: dark) {
+  .recurring-tasks-page__message {
+    color: rgba(255, 255, 255, 0.55);
+  }
+}

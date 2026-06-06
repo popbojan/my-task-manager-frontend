@@ -4,9 +4,10 @@
   left: 0;
   width: 100%;
   height: 56px;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
+  gap: 1rem;
   padding: 0 1.25rem;
   background: #ffffff;
   border-bottom: 1px solid #dfe1e6;
@@ -15,13 +16,66 @@
 }
 
 .app-header__brand {
+  justify-self: start;
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: #0052cc;
+  white-space: nowrap;
+}
+
+.app-header__nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 10px;
+  background: #f4f5f7;
+  border: 1px solid #ebecf0;
+}
+
+.app-header__nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.875rem;
+  border-radius: 8px;
+  color: #42526e;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.app-header__nav-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.app-header__nav-label {
+  line-height: 1;
+}
+
+.app-header__nav-link:hover {
+  color: #0052cc;
+}
+
+.app-header__nav-link--active {
+  background: #ffffff;
+  color: #0052cc;
+  box-shadow: 0 1px 3px rgba(9, 30, 66, 0.12);
 }
 
 .app-header__logout {
+  justify-self: end;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -51,6 +105,40 @@
   color: #0052cc;
 }
 
+@media (max-width: 720px) {
+  .app-header {
+    grid-template-columns: auto 1fr auto;
+    gap: 0.5rem;
+    padding: 0 0.75rem;
+  }
+
+  .app-header__brand {
+    display: none;
+  }
+
+  .app-header__nav {
+    justify-self: center;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .app-header__nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .app-header__nav-link {
+    gap: 0.3rem;
+    padding: 0.35rem 0.625rem;
+    font-size: 0.75rem;
+  }
+
+  .app-header__nav-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   .app-header {
     background: #22272b;
@@ -60,6 +148,25 @@
 
   .app-header__brand {
     color: #579dff;
+  }
+
+  .app-header__nav {
+    background: #282e33;
+    border-color: #454f59;
+  }
+
+  .app-header__nav-link {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .app-header__nav-link:hover {
+    color: #85b8ff;
+  }
+
+  .app-header__nav-link--active {
+    background: #1c2b41;
+    color: #85b8ff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
   .app-header__logout {
