@@ -1,7 +1,7 @@
 import "./header.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../auth/AuthContext";
-import { authApi } from "../api/authClient";
+import { useAuth } from "@/auth/AuthContext";
+import { authApi } from "@/api/authClient";
 
 function TasksNavIcon() {
   return (

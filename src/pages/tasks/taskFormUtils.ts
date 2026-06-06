@@ -1,4 +1,4 @@
-import type { Task } from "../api/generated";
+import type { Task } from "@/api/generated";
 
 export function toDatetimeLocalValue(date: Date): string {
   const pad = (value: number) => String(value).padStart(2, "0");

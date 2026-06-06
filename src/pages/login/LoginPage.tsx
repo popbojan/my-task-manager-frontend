@@ -1,8 +1,8 @@
 import "./login.css";
 import { useMutation } from "@tanstack/react-query";
-import { authApi } from "../api/authClient";
+import { authApi } from "@/api/authClient";
 import { useState, type ChangeEvent } from "react";
-import { useAuth } from "../auth/AuthContext";
+import { useAuth } from "@/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 type LoginStep = "email" | "otp";

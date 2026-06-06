@@ -1,8 +1,8 @@
 import "./create-task-modal.css";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState, type FormEvent } from "react";
-import { authApi } from "../api/authClient";
-import { TaskPriority, TaskStatus } from "../api/generated";
+import { authApi } from "@/api/authClient";
+import { TaskPriority, TaskStatus } from "@/api/generated";
 import { PRIORITY_SECTIONS, STATUS_COLUMNS } from "./taskBoardConfig";
 import { taskToFormState } from "./taskFormUtils";
 

@@ -1,9 +1,9 @@
 import "./app.css";
 import { useEffect, useRef } from "react";
-import AppRoutes from "./AppRoutes";
-import { AuthProvider, useAuth } from "./auth/AuthContext";
-import { authApi, setAccessTokenGetter } from "./api/authClient";
-import Header from "./pages/Header";
+import AppRoutes from "@/AppRoutes";
+import { AuthProvider, useAuth } from "@/auth/AuthContext";
+import { authApi, setAccessTokenGetter } from "@/api/authClient";
+import Header from "@/pages/header/Header";
 
 // TODO: make an interceptor so that /auth/refresh is always called, when accessToken expires
 

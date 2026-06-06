@@ -1,9 +1,9 @@
 import "./tasks.css";
 import { useMemo, useState, type DragEvent } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { authApi } from "../api/authClient";
-import { TaskPriority, TaskStatus, type Task } from "../api/generated";
-import { useAuth } from "../auth/AuthContext";
+import { authApi } from "@/api/authClient";
+import { TaskPriority, TaskStatus, type Task } from "@/api/generated";
+import { useAuth } from "@/auth/AuthContext";
 import TaskFormModal from "./TaskFormModal";
 import DeleteTaskModal from "./DeleteTaskModal";
 import TaskDeadline from "./TaskDeadline";
@@ -120,7 +120,7 @@ export default function TasksPage() {
     [tasksQuery.data],
   );
 
-  function handleDragStart(event: DragEvent<HTMLDivElement>, taskId: string) {
+  function handleDragStart(event: DragEvent<HTMLElement>, taskId: string) {
     event.dataTransfer.setData("text/task-id", taskId);
     event.dataTransfer.effectAllowed = "move";
     setDraggedTaskId(taskId);

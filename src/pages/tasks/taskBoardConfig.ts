@@ -1,4 +1,4 @@
-import { TaskPriority, TaskStatus, type Task } from "../api/generated";
+import { TaskPriority, TaskStatus, type Task } from "@/api/generated";
 
 export const PRIORITY_SECTIONS: { priority: TaskPriority; label: string }[] = [
   { priority: TaskPriority.ImportantUrgent, label: "Wichtig & Dringend" },

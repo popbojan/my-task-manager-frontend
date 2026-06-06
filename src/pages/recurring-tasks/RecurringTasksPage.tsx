@@ -1,4 +1,4 @@
-import "./recurring-tasks.css";
+import './recurring-tasks.css';
 
 export default function RecurringTasksPage() {
   return (

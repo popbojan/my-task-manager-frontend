@@ -1,5 +1,5 @@
-import { Configuration } from "./generated/runtime";
-import { DefaultApi } from "./generated/apis/DefaultApi";
+import { Configuration } from "@/api/generated/runtime";
+import { DefaultApi } from "@/api/generated/apis/DefaultApi";
 
 let accessTokenGetter: () => string | null = () => null;
 

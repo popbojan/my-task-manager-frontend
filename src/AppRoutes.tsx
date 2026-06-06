@@ -1,10 +1,10 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import NotFoundPage from "./pages/NotFoundPage";
-import TasksPage from "./pages/TasksPage";
-import RecurringTasksPage from "./pages/RecurringTasksPage";
-import ProtectedRoute from "./ProtectedRoute";
-import { useAuth } from "./auth/AuthContext";
+import LoginPage from "@/pages/login/LoginPage";
+import NotFoundPage from "@/pages/not-found/NotFoundPage";
+import TasksPage from "@/pages/tasks/TasksPage";
+import RecurringTasksPage from "@/pages/recurring-tasks/RecurringTasksPage";
+import ProtectedRoute from "@/ProtectedRoute";
+import { useAuth } from "@/auth/AuthContext";
 
 export default function AppRoutes() {
   const { accessToken } = useAuth();
