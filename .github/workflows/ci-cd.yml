@@ -1,0 +1,78 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: railway-production-frontend
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  RAILWAY_PROJECT_ID: d09967e7-0f0b-474f-a973-612350ff5aca
+  RAILWAY_SERVICE_ID: 7ad7ab0c-a251-49f8-96df-7a591616a17c
+  RAILWAY_ENVIRONMENT: production
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Configure git for GitHub dependencies
+        run: |
+          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "ssh://git@github.com/"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+  deploy:
+    name: Deploy to Railway
+    runs-on: ubuntu-latest
+    needs: ci
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    container: ghcr.io/railwayapp/cli:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          unset RAILWAY_API_TOKEN || true
+
+          if [ -z "${RAILWAY_TOKEN}" ]; then
+            echo "ERROR: GitHub secret RAILWAY_TOKEN is missing."
+            echo "Add a Project Token from Railway project settings -> Tokens."
+            exit 1
+          fi
+
+          railway up --ci \
+            --project "${{ env.RAILWAY_PROJECT_ID }}" \
+            --service "${{ env.RAILWAY_SERVICE_ID }}" \
+            --environment "${{ env.RAILWAY_ENVIRONMENT }}"
