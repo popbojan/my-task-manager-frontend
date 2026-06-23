@@ -1,4 +1,5 @@
 import "./create-task-modal.css";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 type DeleteTaskModalProps = {
   isOpen: boolean;
@@ -17,6 +18,8 @@ export default function DeleteTaskModal({
   onClose,
   onConfirm,
 }: DeleteTaskModalProps) {
+  const { t } = useLanguage();
+
   if (!isOpen || !taskTitle) {
     return null;
   }
@@ -26,7 +29,7 @@ export default function DeleteTaskModal({
       <button
         type="button"
         className="create-task-modal__backdrop"
-        aria-label="Dialog schließen"
+        aria-label={t("common.close")}
         onClick={onClose}
         disabled={isPending}
       />
@@ -39,12 +42,12 @@ export default function DeleteTaskModal({
       >
         <header className="create-task-modal__header">
           <h2 id="delete-task-title" className="create-task-modal__title">
-            Aufgabe löschen
+            {t("tasks.deleteTask")}
           </h2>
           <button
             type="button"
             className="create-task-modal__close"
-            aria-label="Schließen"
+            aria-label={t("common.close")}
             onClick={onClose}
             disabled={isPending}
           >
@@ -53,14 +56,11 @@ export default function DeleteTaskModal({
         </header>
 
         <p className="create-task-modal__message">
-          Möchtest du die Aufgabe <strong>„{taskTitle}"</strong> wirklich
-          löschen? Diese Aktion kann nicht rückgängig gemacht werden.
+          {t("tasks.deleteConfirm", { title: taskTitle })}
         </p>
 
         {isError && (
-          <p className="create-task-modal__error">
-            Aufgabe konnte nicht gelöscht werden.
-          </p>
+          <p className="create-task-modal__error">{t("tasks.deleteError")}</p>
         )}
 
         <div className="create-task-modal__actions">
@@ -70,7 +70,7 @@ export default function DeleteTaskModal({
             onClick={onClose}
             disabled={isPending}
           >
-            Abbrechen
+            {t("common.cancel")}
           </button>
           <button
             type="button"
@@ -78,7 +78,7 @@ export default function DeleteTaskModal({
             onClick={onConfirm}
             disabled={isPending}
           >
-            {isPending ? "Lösche…" : "Löschen"}
+            {isPending ? t("common.deleting") : t("common.delete")}
           </button>
         </div>
       </div>

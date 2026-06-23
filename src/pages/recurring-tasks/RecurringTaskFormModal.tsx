@@ -6,6 +6,7 @@ import {
   RecurringFrequency,
   RecurringTaskStatus,
 } from "@/api/generated";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import {
   FREQUENCY_SECTIONS,
   STATUS_COLUMNS,
@@ -39,6 +40,7 @@ export default function RecurringTaskFormModal({
   onClose,
   onSaved,
 }: RecurringTaskFormModalProps) {
+  const { t } = useLanguage();
   const isEditMode = taskId !== null;
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
 
@@ -116,7 +118,7 @@ export default function RecurringTaskFormModal({
       <button
         type="button"
         className="create-task-modal__backdrop"
-        aria-label="Dialog schließen"
+        aria-label={t("common.close")}
         onClick={onClose}
       />
 
@@ -128,14 +130,12 @@ export default function RecurringTaskFormModal({
       >
         <header className="create-task-modal__header">
           <h2 id="recurring-task-form-title" className="create-task-modal__title">
-            {isEditMode
-              ? "Wiederholende Aufgabe bearbeiten"
-              : "Neue wiederholende Aufgabe"}
+            {isEditMode ? t("recurring.editTask") : t("recurring.createTask")}
           </h2>
           <button
             type="button"
             className="create-task-modal__close"
-            aria-label="Schließen"
+            aria-label={t("common.close")}
             onClick={onClose}
           >
             ×
@@ -143,19 +143,17 @@ export default function RecurringTaskFormModal({
         </header>
 
         {isLoadingTask && (
-          <p className="create-task-modal__state">Lade Aufgabe…</p>
+          <p className="create-task-modal__state">{t("recurring.loadingTask")}</p>
         )}
 
         {isLoadError && (
-          <p className="create-task-modal__error">
-            Aufgabe konnte nicht geladen werden.
-          </p>
+          <p className="create-task-modal__error">{t("recurring.loadError")}</p>
         )}
 
         {!isLoadingTask && !isLoadError && (
           <form className="create-task-modal__form" onSubmit={handleSubmit}>
             <div className="create-task-modal__field">
-              <label htmlFor="recurring-task-title">Titel *</label>
+              <label htmlFor="recurring-task-title">{t("recurring.title")} *</label>
               <input
                 id="recurring-task-title"
                 type="text"
@@ -166,14 +164,16 @@ export default function RecurringTaskFormModal({
                     title: event.target.value,
                   }))
                 }
-                placeholder="Was soll regelmäßig erledigt werden?"
+                placeholder={t("recurring.titlePlaceholder")}
                 autoFocus
                 required
               />
             </div>
 
             <div className="create-task-modal__field">
-              <label htmlFor="recurring-task-description">Beschreibung</label>
+              <label htmlFor="recurring-task-description">
+                {t("recurring.description")}
+              </label>
               <textarea
                 id="recurring-task-description"
                 value={form.description}
@@ -183,14 +183,16 @@ export default function RecurringTaskFormModal({
                     description: event.target.value,
                   }))
                 }
-                placeholder="Optionale Details…"
+                placeholder={t("recurring.descriptionPlaceholder")}
                 rows={4}
               />
             </div>
 
             <div className="create-task-modal__row">
               <div className="create-task-modal__field">
-                <label htmlFor="recurring-task-frequency">Wiederholung *</label>
+                <label htmlFor="recurring-task-frequency">
+                  {t("recurring.frequency")} *
+                </label>
                 <select
                   id="recurring-task-frequency"
                   value={form.frequency}
@@ -201,9 +203,9 @@ export default function RecurringTaskFormModal({
                     }))
                   }
                 >
-                  {FREQUENCY_SECTIONS.map(({ frequency, label }) => (
+                  {FREQUENCY_SECTIONS.map(({ frequency, labelKey }) => (
                     <option key={frequency} value={frequency}>
-                      {label}
+                      {t(labelKey)}
                     </option>
                   ))}
                 </select>
@@ -211,7 +213,9 @@ export default function RecurringTaskFormModal({
 
               {isEditMode && (
                 <div className="create-task-modal__field">
-                  <label htmlFor="recurring-task-status">Status</label>
+                  <label htmlFor="recurring-task-status">
+                    {t("recurring.status")}
+                  </label>
                   <select
                     id="recurring-task-status"
                     value={form.status}
@@ -222,9 +226,9 @@ export default function RecurringTaskFormModal({
                       }))
                     }
                   >
-                    {STATUS_COLUMNS.map(({ status, label }) => (
+                    {STATUS_COLUMNS.map(({ status, labelKey }) => (
                       <option key={status} value={status}>
-                        {label}
+                        {t(labelKey)}
                       </option>
                     ))}
                   </select>
@@ -234,9 +238,7 @@ export default function RecurringTaskFormModal({
 
             {saveTaskMutation.isError && (
               <p className="create-task-modal__error">
-                {isEditMode
-                  ? "Aufgabe konnte nicht gespeichert werden."
-                  : "Aufgabe konnte nicht erstellt werden."}
+                {isEditMode ? t("recurring.saveError") : t("recurring.createError")}
               </p>
             )}
 
@@ -247,14 +249,14 @@ export default function RecurringTaskFormModal({
                 onClick={onClose}
                 disabled={saveTaskMutation.isPending}
               >
-                Abbrechen
+                {t("common.cancel")}
               </button>
               <button
                 type="submit"
                 className="create-task-modal__button create-task-modal__button--primary"
                 disabled={!canSubmit}
               >
-                {saveTaskMutation.isPending ? "Speichere…" : "Speichern"}
+                {saveTaskMutation.isPending ? t("common.saving") : t("common.save")}
               </button>
             </div>
           </form>

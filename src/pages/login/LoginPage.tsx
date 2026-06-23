@@ -1,7 +1,8 @@
 import "./login.css";
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "@/api/authClient";
-import { DEFAULT_LANGUAGE } from "@/auth/language";
+import { useApiLanguage, useLanguage } from "@/i18n/LanguageProvider";
+import LanguageSwitcher from "@/i18n/LanguageSwitcher";
 import { useState, type ChangeEvent } from "react";
 import { useAuth } from "@/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -14,62 +15,56 @@ export default function LoginPage() {
   const [step, setStep] = useState<LoginStep>("email");
 
   const { setAccessToken } = useAuth();
+  const { t } = useLanguage();
+  const apiLanguage = useApiLanguage();
   const navigate = useNavigate();
 
-const requestOtpMutation = useMutation({
-  mutationFn: () =>
-    authApi.requestOtp({
-      oTPRequest: { email, language: DEFAULT_LANGUAGE },
-    }),
-  onSuccess: (data) => {
-    console.log("OTP requested:", data);
-    setStep("otp");
-  },
-  onError: (error) => {
-    console.error("Request OTP failed:", error);
-  },
-});
+  const requestOtpMutation = useMutation({
+    mutationFn: () =>
+      authApi.requestOtp({
+        oTPRequest: { email, language: apiLanguage },
+      }),
+    onSuccess: () => {
+      setStep("otp");
+    },
+  });
 
-const loginWithOtpMutation = useMutation({
-  mutationFn: () =>
-    authApi.loginWithOtp({
-      loginRequest: { email, otp, language: DEFAULT_LANGUAGE },
-    }),
-  onSuccess: (data) => {
-    console.log("Logged in:", data);
-    if (data?.accessToken) {
-      setAccessToken(data.accessToken);
-      navigate("/tasks");
-    }
-  },
-  onError: (error) => {
-    console.error("Login with OTP failed:", error);
-  },
-});
+  const loginWithOtpMutation = useMutation({
+    mutationFn: () =>
+      authApi.loginWithOtp({
+        loginRequest: { email, otp, language: apiLanguage },
+      }),
+    onSuccess: (data) => {
+      if (data?.accessToken) {
+        setAccessToken(data.accessToken);
+        navigate("/tasks");
+      }
+    },
+  });
 
   const canSendOtp = !!email && !requestOtpMutation.isPending;
   const canLogin = !!email && !!otp && !loginWithOtpMutation.isPending;
 
   return (
     <div className="login">
+      <LanguageSwitcher className="language-switcher--login" />
+
       <div className="login-card">
-        <h1 className="login-title">Anmelden</h1>
+        <h1 className="login-title">{t("login.title")}</h1>
 
         {step === "email" && (
           <>
-            <p className="login-subtitle">
-              Wir schicken Ihnen einen Einmalcode per E-Mail.
-            </p>
+            <p className="login-subtitle">{t("login.subtitleEmail")}</p>
 
             <div className="login-field">
-              <label>E-Mail-Adresse</label>
+              <label>{t("login.email")}</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setEmail(e.target.value)
                 }
-                placeholder="name@domain.com"
+                placeholder={t("login.emailPlaceholder")}
                 autoComplete="email"
               />
             </div>
@@ -79,11 +74,13 @@ const loginWithOtpMutation = useMutation({
               onClick={() => requestOtpMutation.mutate()}
               disabled={!canSendOtp}
             >
-              {requestOtpMutation.isPending ? "Sende…" : "Code senden"}
+              {requestOtpMutation.isPending
+                ? t("login.sending")
+                : t("login.sendCode")}
             </button>
 
             {requestOtpMutation.isError && (
-              <p className="login-error">OTP konnte nicht gesendet werden.</p>
+              <p className="login-error">{t("login.errorOtpRequest")}</p>
             )}
           </>
         )}
@@ -91,17 +88,17 @@ const loginWithOtpMutation = useMutation({
         {step === "otp" && (
           <>
             <p className="login-subtitle">
-              Wir haben einen Code an <b>{email}</b> geschickt.
+              {t("login.subtitleOtp", { email })}
             </p>
 
             <div className="login-field">
-              <label>OTP-Code</label>
+              <label>{t("login.otp")}</label>
               <input
                 value={otp}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setOtp(e.target.value)
                 }
-                placeholder="123456"
+                placeholder={t("login.otpPlaceholder")}
                 inputMode="numeric"
                 autoComplete="one-time-code"
               />
@@ -112,11 +109,13 @@ const loginWithOtpMutation = useMutation({
               onClick={() => loginWithOtpMutation.mutate()}
               disabled={!canLogin}
             >
-              {loginWithOtpMutation.isPending ? "Prüfe…" : "Einloggen"}
+              {loginWithOtpMutation.isPending
+                ? t("login.checking")
+                : t("login.submit")}
             </button>
 
             {loginWithOtpMutation.isError && (
-              <p className="login-error">OTP ist ungültig oder abgelaufen.</p>
+              <p className="login-error">{t("login.errorLogin")}</p>
             )}
           </>
         )}

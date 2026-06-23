@@ -1,17 +1,27 @@
 import { TaskPriority, TaskStatus, type Task } from "@/api/generated";
+import type { TranslationKey } from "@/i18n/locales";
 
-export const PRIORITY_SECTIONS: { priority: TaskPriority; label: string }[] = [
-  { priority: TaskPriority.ImportantUrgent, label: "Wichtig & Dringend" },
-  { priority: TaskPriority.Important, label: "Wichtig" },
-  { priority: TaskPriority.Urgent, label: "Dringend" },
-  { priority: TaskPriority.None, label: "Andere" },
+export const PRIORITY_SECTIONS: {
+  priority: TaskPriority;
+  labelKey: TranslationKey;
+}[] = [
+  {
+    priority: TaskPriority.ImportantUrgent,
+    labelKey: "tasks.priority.importantUrgent",
+  },
+  { priority: TaskPriority.Important, labelKey: "tasks.priority.important" },
+  { priority: TaskPriority.Urgent, labelKey: "tasks.priority.urgent" },
+  { priority: TaskPriority.None, labelKey: "tasks.priority.none" },
 ];
 
-export const STATUS_COLUMNS: { status: TaskStatus; label: string }[] = [
-  { status: TaskStatus.Todo, label: "To Do" },
-  { status: TaskStatus.InProgress, label: "In Bearbeitung" },
-  { status: TaskStatus.Review, label: "Review" },
-  { status: TaskStatus.Done, label: "Fertig" },
+export const STATUS_COLUMNS: {
+  status: TaskStatus;
+  labelKey: TranslationKey;
+}[] = [
+  { status: TaskStatus.Todo, labelKey: "tasks.status.todo" },
+  { status: TaskStatus.InProgress, labelKey: "tasks.status.inProgress" },
+  { status: TaskStatus.Review, labelKey: "tasks.status.review" },
+  { status: TaskStatus.Done, labelKey: "tasks.status.done" },
 ];
 
 export function compareTasksByDeadline(a: Task, b: Task): number {

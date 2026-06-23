@@ -1,7 +1,11 @@
 import "./header.css";
 import { NavLink, useNavigate } from "react-router-dom";
+import type { ReactElement } from "react";
 import { useAuth } from "@/auth/AuthContext";
 import { authApi } from "@/api/authClient";
+import { useLanguage } from "@/i18n/LanguageProvider";
+import LanguageSwitcher from "@/i18n/LanguageSwitcher";
+import type { TranslationKey } from "@/i18n/locales";
 
 function TasksNavIcon() {
   return (
@@ -19,17 +23,22 @@ function RecurringNavIcon() {
   );
 }
 
-const NAV_ITEMS = [
-  { to: "/tasks", label: "Aufgaben", icon: <TasksNavIcon /> },
+const NAV_ITEMS: {
+  to: string;
+  labelKey: TranslationKey;
+  icon: ReactElement;
+}[] = [
+  { to: "/tasks", labelKey: "header.nav.tasks", icon: <TasksNavIcon /> },
   {
     to: "/recurring-tasks",
-    label: "Wiederholende Aufgaben",
+    labelKey: "header.nav.recurringTasks",
     icon: <RecurringNavIcon />,
   },
-] as const;
+];
 
 export default function Header() {
   const { accessToken, setAccessToken } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   if (!accessToken) {
@@ -49,39 +58,46 @@ export default function Header() {
 
   return (
     <header className="app-header">
-      <div className="app-header__brand">My Task Manager</div>
+      <div className="app-header__brand">{t("header.brand")}</div>
 
-      <nav className="app-header__nav" aria-label="Hauptnavigation">
-        {NAV_ITEMS.map(({ to, label, icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            className={({ isActive }) =>
-              `app-header__nav-link${isActive ? " app-header__nav-link--active" : ""}`
-            }
-            title={label}
-          >
-            {icon}
-            <span className="app-header__nav-label">{label}</span>
-          </NavLink>
-        ))}
+      <nav className="app-header__nav" aria-label={t("header.nav.main")}>
+        {NAV_ITEMS.map(({ to, labelKey, icon }) => {
+          const label = t(labelKey);
+
+          return (
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) =>
+                `app-header__nav-link${isActive ? " app-header__nav-link--active" : ""}`
+              }
+              title={label}
+            >
+              {icon}
+              <span className="app-header__nav-label">{label}</span>
+            </NavLink>
+          );
+        })}
       </nav>
 
-      <button
-        type="button"
-        className="app-header__logout"
-        onClick={handleLogout}
-        aria-label="Abmelden"
-        title="Abmelden"
-      >
-        <svg
-          className="app-header__logout-icon"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
+      <div className="app-header__actions">
+        <LanguageSwitcher />
+        <button
+          type="button"
+          className="app-header__logout"
+          onClick={handleLogout}
+          aria-label={t("header.logout")}
+          title={t("header.logout")}
         >
-          <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" />
-        </svg>
-      </button>
+          <svg
+            className="app-header__logout-icon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" />
+          </svg>
+        </button>
+      </div>
     </header>
   );
 }

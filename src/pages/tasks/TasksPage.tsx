@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { authApi } from "@/api/authClient";
 import { TaskPriority, TaskStatus, type Task } from "@/api/generated";
 import { useAuth } from "@/auth/AuthContext";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import TaskFormModal from "./TaskFormModal";
 import DeleteTaskModal from "./DeleteTaskModal";
 import TaskDeadline from "./TaskDeadline";
@@ -53,6 +54,7 @@ function isSameCell(a: BoardCell | null, b: BoardCell): boolean {
 
 export default function TasksPage() {
   const { accessToken } = useAuth();
+  const { t } = useLanguage();
   const queryClient = useQueryClient();
   const [formModal, setFormModal] = useState<{
     isOpen: boolean;
@@ -203,18 +205,16 @@ export default function TasksPage() {
   return (
     <div className="tasks-page">
       {tasksQuery.isLoading && (
-        <p className="tasks-page__state">Lade Aufgaben…</p>
+        <p className="tasks-page__state">{t("tasks.loading")}</p>
       )}
 
       {tasksQuery.isError && (
-        <p className="tasks-page__state">
-          Aufgaben konnten nicht geladen werden.
-        </p>
+        <p className="tasks-page__state">{t("tasks.error")}</p>
       )}
 
       {tasksQuery.isSuccess && (
         <div className="task-board">
-          {PRIORITY_SECTIONS.map(({ priority, label }) => {
+          {PRIORITY_SECTIONS.map(({ priority, labelKey }) => {
             const rowTaskCount = STATUS_COLUMNS.reduce(
               (total, { status }) => total + taskBoard[priority][status].length,
               0,
@@ -226,14 +226,14 @@ export default function TasksPage() {
                 className={`task-priority-row task-priority-row--${priority}`}
               >
                 <header className="task-priority-row__header">
-                  <h2 className="task-priority-row__title">{label}</h2>
+                  <h2 className="task-priority-row__title">{t(labelKey)}</h2>
                   <span className="task-priority-row__count">
                     {rowTaskCount}
                   </span>
                 </header>
 
                 <div className="task-priority-row__columns">
-                  {STATUS_COLUMNS.map(({ status, label: statusLabel }) => (
+                  {STATUS_COLUMNS.map(({ status, labelKey }) => (
                     <div
                       key={status}
                       className={`task-column${isSameCell(dragOverCell, { priority, status }) ? " task-column--drag-over" : ""}`}
@@ -244,7 +244,7 @@ export default function TasksPage() {
                       onDrop={(event) => handleDrop(event, { priority, status })}
                     >
                       <header className="task-column__header">
-                        <h3 className="task-column__title">{statusLabel}</h3>
+                        <h3 className="task-column__title">{t(labelKey)}</h3>
                         <span className="task-column__count">
                           {taskBoard[priority][status].length}
                         </span>
@@ -267,7 +267,7 @@ export default function TasksPage() {
                                 <button
                                   type="button"
                                   className="task-card__action task-card__action--edit"
-                                  aria-label="Aufgabe bearbeiten"
+                                  aria-label={t("tasks.edit")}
                                   onClick={() => openEditModal(task.id)}
                                   onMouseDown={(event) =>
                                     event.stopPropagation()
@@ -286,7 +286,7 @@ export default function TasksPage() {
                                   <button
                                     type="button"
                                     className="task-card__action task-card__action--delete"
-                                    aria-label="Aufgabe löschen"
+                                    aria-label={t("tasks.delete")}
                                     onClick={() => openDeleteModal(task)}
                                     onMouseDown={(event) =>
                                       event.stopPropagation()
@@ -343,8 +343,8 @@ export default function TasksPage() {
       <button
         type="button"
         className="tasks-page__fab"
-        aria-label="Neue Aufgabe"
-        title="Neue Aufgabe"
+        aria-label={t("tasks.newTask")}
+        title={t("tasks.newTask")}
         onClick={openCreateModal}
       >
         <svg className="tasks-page__fab-icon" viewBox="0 0 24 24" aria-hidden="true">

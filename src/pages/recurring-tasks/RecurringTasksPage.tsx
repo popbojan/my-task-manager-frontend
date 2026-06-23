@@ -8,6 +8,7 @@ import {
   type RecurringTask,
 } from "@/api/generated";
 import { useAuth } from "@/auth/AuthContext";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import RecurringTaskFormModal from "./RecurringTaskFormModal";
 import DeleteRecurringTaskModal from "./DeleteRecurringTaskModal";
 import RecurringTaskStreak from "./RecurringTaskStreak";
@@ -59,8 +60,8 @@ function isSameCell(a: BoardCell | null, b: BoardCell): boolean {
   return a?.frequency === b.frequency && a?.status === b.status;
 }
 
-function formatResetDate(date: Date): string {
-  return new Intl.DateTimeFormat("de-DE", {
+function formatResetDate(date: Date, locale: string): string {
+  return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
@@ -71,6 +72,7 @@ function formatResetDate(date: Date): string {
 
 export default function RecurringTasksPage() {
   const { accessToken } = useAuth();
+  const { t, locale } = useLanguage();
   const queryClient = useQueryClient();
   const [formModal, setFormModal] = useState<{
     isOpen: boolean;
@@ -245,23 +247,26 @@ export default function RecurringTasksPage() {
     <div className="recurring-tasks-page">
       {isLoading && (
         <p className="recurring-tasks-page__state">
-          Lade wiederholende Aufgaben…
+          {t("recurring.loading")}
         </p>
       )}
 
       {isError && (
-        <p className="recurring-tasks-page__state">
-          Wiederholende Aufgaben konnten nicht geladen werden.
-        </p>
+        <p className="recurring-tasks-page__state">{t("recurring.error")}</p>
       )}
 
       {isSuccess && (
         <>
-          <section className="recurring-score-panel" aria-label="Gesamt-Score">
+          <section
+            className="recurring-score-panel"
+            aria-label={t("recurring.score.title")}
+          >
             <header className="recurring-score-panel__header">
-              <h2 className="recurring-score-panel__title">Gesamt-Score</h2>
+              <h2 className="recurring-score-panel__title">
+                {t("recurring.score.title")}
+              </h2>
               <p className="recurring-score-panel__subtitle">
-                Tage in Folge, an denen alle täglichen Aufgaben erledigt wurden
+                {t("recurring.score.subtitle")}
               </p>
             </header>
 
@@ -269,10 +274,10 @@ export default function RecurringTasksPage() {
               <table className="recurring-score-panel__table">
                 <thead>
                   <tr>
-                    <th>Gesamt-Score</th>
-                    <th>Täglich</th>
-                    <th>Wöchentlich</th>
-                    <th>Monatlich</th>
+                    <th>{t("recurring.score.total")}</th>
+                    <th>{t("recurring.score.daily")}</th>
+                    <th>{t("recurring.score.weekly")}</th>
+                    <th>{t("recurring.score.monthly")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -282,7 +287,7 @@ export default function RecurringTasksPage() {
                         className={`recurring-score-panel__score recurring-score-panel__score--${globalScoreTier}`}
                       >
                         <span className="recurring-score-panel__score-tag">
-                          Score
+                          {t("recurring.score.label")}
                         </span>
                         <span className="recurring-score-panel__score-value">
                           {globalScore}
@@ -299,7 +304,7 @@ export default function RecurringTasksPage() {
           </section>
 
           <div className="recurring-board">
-            {FREQUENCY_SECTIONS.map(({ frequency, label }) => {
+            {FREQUENCY_SECTIONS.map(({ frequency, labelKey }) => {
               const rowTaskCount = STATUS_COLUMNS.reduce(
                 (total, { status }) =>
                   total + taskBoard[frequency][status].length,
@@ -312,14 +317,16 @@ export default function RecurringTasksPage() {
                   className={`recurring-frequency-row recurring-frequency-row--${frequency}`}
                 >
                   <header className="recurring-frequency-row__header">
-                    <h2 className="recurring-frequency-row__title">{label}</h2>
+                    <h2 className="recurring-frequency-row__title">
+                      {t(labelKey)}
+                    </h2>
                     <span className="recurring-frequency-row__count">
                       {rowTaskCount}
                     </span>
                   </header>
 
                   <div className="recurring-frequency-row__columns">
-                    {STATUS_COLUMNS.map(({ status, label: statusLabel }) => (
+                    {STATUS_COLUMNS.map(({ status, labelKey }) => (
                       <div
                         key={status}
                         className={`recurring-column${isSameCell(dragOverCell, { frequency, status }) ? " recurring-column--drag-over" : ""}`}
@@ -333,7 +340,7 @@ export default function RecurringTasksPage() {
                       >
                         <header className="recurring-column__header">
                           <h3 className="recurring-column__title">
-                            {statusLabel}
+                            {t(labelKey)}
                           </h3>
                           <span className="recurring-column__count">
                             {taskBoard[frequency][status].length}
@@ -343,7 +350,7 @@ export default function RecurringTasksPage() {
                         <div className="recurring-column__cards">
                           {taskBoard[frequency][status].length === 0 ? (
                             <p className="recurring-column__empty">
-                              Keine Aufgaben
+                              {t("recurring.noTasks")}
                             </p>
                           ) : (
                             taskBoard[frequency][status].map((task) => (
@@ -364,7 +371,7 @@ export default function RecurringTasksPage() {
                                     <button
                                       type="button"
                                       className="recurring-card__action recurring-card__action--edit"
-                                      aria-label="Aufgabe bearbeiten"
+                                      aria-label={t("recurring.edit")}
                                       onClick={() => openEditModal(task.id)}
                                       onMouseDown={(event) =>
                                         event.stopPropagation()
@@ -382,7 +389,7 @@ export default function RecurringTasksPage() {
                                     <button
                                       type="button"
                                       className="recurring-card__action recurring-card__action--delete"
-                                      aria-label="Aufgabe löschen"
+                                      aria-label={t("recurring.delete")}
                                       onClick={() => openDeleteModal(task)}
                                       onMouseDown={(event) =>
                                         event.stopPropagation()
@@ -406,11 +413,15 @@ export default function RecurringTasksPage() {
                                   </p>
                                 )}
 
-                                <RecurringTaskStreak streakCount={task.streakCount} />
+                                <RecurringTaskStreak
+                                  streakCount={task.streakCount}
+                                  tagLabel={t("recurring.streak.label")}
+                                />
 
                                 <p className="recurring-card__reset">
-                                  Nächster Reset:{" "}
-                                  {formatResetDate(task.nextResetAt)}
+                                  {t("recurring.nextReset", {
+                                    date: formatResetDate(task.nextResetAt, locale),
+                                  })}
                                 </p>
                               </article>
                             ))
@@ -445,8 +456,8 @@ export default function RecurringTasksPage() {
       <button
         type="button"
         className="recurring-tasks-page__fab"
-        aria-label="Neue wiederholende Aufgabe"
-        title="Neue wiederholende Aufgabe"
+        aria-label={t("recurring.newTask")}
+        title={t("recurring.newTask")}
         onClick={openCreateModal}
       >
         <svg

@@ -74,8 +74,14 @@
   box-shadow: 0 1px 3px rgba(9, 30, 66, 0.12);
 }
 
-.app-header__logout {
+.app-header__actions {
   justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app-header__logout {
   display: inline-flex;
   align-items: center;
   justify-content: center;

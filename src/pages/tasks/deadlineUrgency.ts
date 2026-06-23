@@ -5,9 +5,16 @@ const DAYS_IN_MONTH = 30;
 const DAYS_IN_TWO_WEEKS = 14;
 const DAYS_IN_ONE_DAY = 1;
 
+export type DeadlineLabels = {
+  overdue: string;
+  today: string;
+  thisWeek: string;
+  twoWeeks: string;
+  oneMonth: string;
+};
+
 export function getDeadlineTier(deadline: Date): DeadlineTier {
-  const daysRemaining =
-    (deadline.getTime() - Date.now()) / MS_PER_DAY;
+  const daysRemaining = (deadline.getTime() - Date.now()) / MS_PER_DAY;
 
   if (daysRemaining <= DAYS_IN_ONE_DAY) {
     return "red";
@@ -24,8 +31,8 @@ export function getDeadlineTier(deadline: Date): DeadlineTier {
   return "green";
 }
 
-export function formatDeadline(deadline: Date): string {
-  return new Intl.DateTimeFormat("de-DE", {
+export function formatDeadline(deadline: Date, locale: string): string {
+  return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
@@ -34,35 +41,43 @@ export function formatDeadline(deadline: Date): string {
   }).format(deadline);
 }
 
-export function getDeadlineDisplay(deadline: Date | null | undefined) {
+export function getDeadlineDisplay(
+  deadline: Date | null | undefined,
+  labels: DeadlineLabels,
+  locale: string,
+) {
   if (!deadline) {
     return null;
   }
 
   const tier = getDeadlineTier(deadline);
-  const formatted = formatDeadline(deadline);
+  const formatted = formatDeadline(deadline, locale);
   const isOverdue = deadline.getTime() < Date.now();
 
   return {
     tier,
-    urgencyLabel: getUrgencyLabel(tier, isOverdue),
+    urgencyLabel: getUrgencyLabel(tier, isOverdue, labels),
     dateLabel: formatted,
   };
 }
 
-function getUrgencyLabel(tier: DeadlineTier, isOverdue: boolean): string {
+function getUrgencyLabel(
+  tier: DeadlineTier,
+  isOverdue: boolean,
+  labels: DeadlineLabels,
+): string {
   if (isOverdue) {
-    return "Überfällig";
+    return labels.overdue;
   }
 
   switch (tier) {
     case "red":
-      return "Heute";
+      return labels.today;
     case "orange":
-      return "Diese Woche";
+      return labels.thisWeek;
     case "yellow":
-      return "2+ Wochen";
+      return labels.twoWeeks;
     case "green":
-      return "1+ Monat";
+      return labels.oneMonth;
   }
 }

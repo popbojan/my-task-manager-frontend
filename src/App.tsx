@@ -1,7 +1,8 @@
 import "./app.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactElement } from "react";
 import AppRoutes from "@/AppRoutes";
 import { AuthProvider, useAuth } from "@/auth/AuthContext";
+import { LanguageProvider, useLanguage } from "@/i18n/LanguageProvider";
 import { authApi, setAccessTokenGetter } from "@/api/authClient";
 import Header from "@/pages/header/Header";
 
@@ -9,6 +10,7 @@ import Header from "@/pages/header/Header";
 
 function AppContent() {
   const { accessToken, setAccessToken, isAuthReady, setIsAuthReady } = useAuth();
+  const { t } = useLanguage();
   const hasInitializedRef = useRef(false);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ function AppContent() {
   }, [setAccessToken, setIsAuthReady]);
 
   if (!isAuthReady) {
-    return <div>Lade...</div>;
+    return <div>{t("common.loading")}</div>;
   }
 
   return (
@@ -51,7 +53,9 @@ function AppContent() {
 export default function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
     </AuthProvider>
   );
 }

@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState, type FormEvent } from "react";
 import { authApi } from "@/api/authClient";
 import { TaskPriority, TaskStatus } from "@/api/generated";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import { PRIORITY_SECTIONS, STATUS_COLUMNS } from "./taskBoardConfig";
 import { taskToFormState } from "./taskFormUtils";
 
@@ -35,6 +36,7 @@ export default function TaskFormModal({
   onClose,
   onSaved,
 }: TaskFormModalProps) {
+  const { t } = useLanguage();
   const isEditMode = taskId !== null;
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
 
@@ -114,7 +116,7 @@ export default function TaskFormModal({
       <button
         type="button"
         className="create-task-modal__backdrop"
-        aria-label="Dialog schließen"
+        aria-label={t("common.close")}
         onClick={onClose}
       />
 
@@ -126,12 +128,12 @@ export default function TaskFormModal({
       >
         <header className="create-task-modal__header">
           <h2 id="task-form-title" className="create-task-modal__title">
-            {isEditMode ? "Aufgabe bearbeiten" : "Neue Aufgabe"}
+            {isEditMode ? t("tasks.editTask") : t("tasks.createTask")}
           </h2>
           <button
             type="button"
             className="create-task-modal__close"
-            aria-label="Schließen"
+            aria-label={t("common.close")}
             onClick={onClose}
           >
             ×
@@ -139,19 +141,17 @@ export default function TaskFormModal({
         </header>
 
         {isLoadingTask && (
-          <p className="create-task-modal__state">Lade Aufgabe…</p>
+          <p className="create-task-modal__state">{t("tasks.loadingTask")}</p>
         )}
 
         {isLoadError && (
-          <p className="create-task-modal__error">
-            Aufgabe konnte nicht geladen werden.
-          </p>
+          <p className="create-task-modal__error">{t("tasks.loadError")}</p>
         )}
 
         {!isLoadingTask && !isLoadError && (
           <form className="create-task-modal__form" onSubmit={handleSubmit}>
             <div className="create-task-modal__field">
-              <label htmlFor="task-title">Titel *</label>
+              <label htmlFor="task-title">{t("tasks.title")} *</label>
               <input
                 id="task-title"
                 type="text"
@@ -162,14 +162,14 @@ export default function TaskFormModal({
                     title: event.target.value,
                   }))
                 }
-                placeholder="Was soll erledigt werden?"
+                placeholder={t("tasks.titlePlaceholder")}
                 autoFocus
                 required
               />
             </div>
 
             <div className="create-task-modal__field">
-              <label htmlFor="task-description">Beschreibung</label>
+              <label htmlFor="task-description">{t("tasks.description")}</label>
               <textarea
                 id="task-description"
                 value={form.description}
@@ -179,14 +179,14 @@ export default function TaskFormModal({
                     description: event.target.value,
                   }))
                 }
-                placeholder="Optionale Details…"
+                placeholder={t("tasks.descriptionPlaceholder")}
                 rows={4}
               />
             </div>
 
             <div className="create-task-modal__row">
               <div className="create-task-modal__field">
-                <label htmlFor="task-status">Status</label>
+                <label htmlFor="task-status">{t("tasks.status")}</label>
                 <select
                   id="task-status"
                   value={form.status}
@@ -197,16 +197,16 @@ export default function TaskFormModal({
                     }))
                   }
                 >
-                  {STATUS_COLUMNS.map(({ status, label }) => (
+                  {STATUS_COLUMNS.map(({ status, labelKey }) => (
                     <option key={status} value={status}>
-                      {label}
+                      {t(labelKey)}
                     </option>
                   ))}
                 </select>
               </div>
 
               <div className="create-task-modal__field">
-                <label htmlFor="task-priority">Priorität</label>
+                <label htmlFor="task-priority">{t("tasks.priority")}</label>
                 <select
                   id="task-priority"
                   value={form.priority}
@@ -217,9 +217,9 @@ export default function TaskFormModal({
                     }))
                   }
                 >
-                  {PRIORITY_SECTIONS.map(({ priority, label }) => (
+                  {PRIORITY_SECTIONS.map(({ priority, labelKey }) => (
                     <option key={priority} value={priority}>
-                      {label}
+                      {t(labelKey)}
                     </option>
                   ))}
                 </select>
@@ -227,7 +227,7 @@ export default function TaskFormModal({
             </div>
 
             <div className="create-task-modal__field">
-              <label htmlFor="task-deadline">Deadline *</label>
+              <label htmlFor="task-deadline">{t("tasks.deadline")} *</label>
               <input
                 id="task-deadline"
                 type="datetime-local"
@@ -244,9 +244,7 @@ export default function TaskFormModal({
 
             {saveTaskMutation.isError && (
               <p className="create-task-modal__error">
-                {isEditMode
-                  ? "Aufgabe konnte nicht gespeichert werden."
-                  : "Aufgabe konnte nicht erstellt werden."}
+                {isEditMode ? t("tasks.saveError") : t("tasks.createError")}
               </p>
             )}
 
@@ -257,14 +255,16 @@ export default function TaskFormModal({
                 onClick={onClose}
                 disabled={saveTaskMutation.isPending}
               >
-                Abbrechen
+                {t("common.cancel")}
               </button>
               <button
                 type="submit"
                 className="create-task-modal__button create-task-modal__button--primary"
                 disabled={!canSubmit}
               >
-                {saveTaskMutation.isPending ? "Speichere…" : "Speichern"}
+                {saveTaskMutation.isPending
+                  ? t("common.saving")
+                  : t("common.save")}
               </button>
             </div>
           </form>

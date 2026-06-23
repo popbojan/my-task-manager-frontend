@@ -1,3 +1,4 @@
+import { useLanguage } from "@/i18n/LanguageProvider";
 import { getDeadlineDisplay } from "./deadlineUrgency";
 
 type TaskDeadlineProps = {
@@ -5,7 +6,14 @@ type TaskDeadlineProps = {
 };
 
 export default function TaskDeadline({ deadline }: TaskDeadlineProps) {
-  const display = getDeadlineDisplay(deadline);
+  const { t, locale } = useLanguage();
+  const display = getDeadlineDisplay(deadline, {
+    overdue: t("deadline.overdue"),
+    today: t("deadline.today"),
+    thisWeek: t("deadline.thisWeek"),
+    twoWeeks: t("deadline.twoWeeks"),
+    oneMonth: t("deadline.oneMonth"),
+  }, locale);
 
   if (!display) {
     return null;

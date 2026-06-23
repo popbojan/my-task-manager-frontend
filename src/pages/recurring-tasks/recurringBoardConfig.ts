@@ -3,23 +3,33 @@ import {
   RecurringTaskStatus,
   type RecurringTask,
 } from "@/api/generated";
+import type { TranslationKey } from "@/i18n/locales";
 
 export const FREQUENCY_SECTIONS: {
   frequency: RecurringFrequency;
-  label: string;
+  labelKey: TranslationKey;
 }[] = [
-  { frequency: RecurringFrequency.Daily, label: "Tägliche Aufgaben" },
-  { frequency: RecurringFrequency.Weekly, label: "Wöchentliche Aufgaben" },
-  { frequency: RecurringFrequency.Monthly, label: "Monatliche Aufgaben" },
+  { frequency: RecurringFrequency.Daily, labelKey: "recurring.frequency.daily" },
+  {
+    frequency: RecurringFrequency.Weekly,
+    labelKey: "recurring.frequency.weekly",
+  },
+  {
+    frequency: RecurringFrequency.Monthly,
+    labelKey: "recurring.frequency.monthly",
+  },
 ];
 
 export const STATUS_COLUMNS: {
   status: RecurringTaskStatus;
-  label: string;
+  labelKey: TranslationKey;
 }[] = [
-  { status: RecurringTaskStatus.Todo, label: "To Do" },
-  { status: RecurringTaskStatus.InProgress, label: "In Bearbeitung" },
-  { status: RecurringTaskStatus.Done, label: "Fertig" },
+  { status: RecurringTaskStatus.Todo, labelKey: "recurring.status.todo" },
+  {
+    status: RecurringTaskStatus.InProgress,
+    labelKey: "recurring.status.inProgress",
+  },
+  { status: RecurringTaskStatus.Done, labelKey: "recurring.status.done" },
 ];
 
 export function compareRecurringTasksByStreak(
