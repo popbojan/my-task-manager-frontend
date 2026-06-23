@@ -10,10 +10,10 @@ export const en: Record<TranslationKey, string> = {
   "common.close": "Close",
   "common.backToLogin": "Back to login",
 
-  "language.de": "German",
-  "language.en": "English",
   "language.sr": "Serbian",
+  "language.de": "German",
   "language.fr": "French",
+  "language.en": "English",
   "language.switch": "Choose language",
 
   "header.brand": "My Task Manager",
