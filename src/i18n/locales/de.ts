@@ -20,7 +20,7 @@ export const de = {
   "header.logout": "Abmelden",
 
   "login.title": "Anmelden",
-  "login.subtitleEmail": "Wir schicken Ihnen einen Einmalcode per E-Mail.",
+  "login.subtitleEmail": "Wir schicken Ihnen einen Einmalcode zur Anmeldung per E-Mail.",
   "login.subtitleOtp": "Wir haben einen Code an {{email}} geschickt.",
   "login.email": "E-Mail-Adresse",
   "login.emailPlaceholder": "name@domain.com",
@@ -63,7 +63,7 @@ export const de = {
   "tasks.priority.urgent": "Dringend",
   "tasks.priority.none": "Andere",
 
-  "tasks.status.todo": "To Do",
+  "tasks.status.todo": "Offene Aufgaben",
   "tasks.status.inProgress": "In Bearbeitung",
   "tasks.status.review": "Review",
   "tasks.status.done": "Fertig",

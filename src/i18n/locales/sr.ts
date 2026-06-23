@@ -22,7 +22,7 @@ export const sr: Record<TranslationKey, string> = {
   "header.logout": "Odjava",
 
   "login.title": "Prijava",
-  "login.subtitleEmail": "Poslaćemo vam jednokratni kod putem e-pošte.",
+  "login.subtitleEmail": "Poslaćemo vam jednokratni kod za prijavu putem e-pošte.",
   "login.subtitleOtp": "Poslali smo kod na {{email}}.",
   "login.email": "E-mail adresa",
   "login.emailPlaceholder": "ime@domen.com",
@@ -66,7 +66,7 @@ export const sr: Record<TranslationKey, string> = {
   "tasks.priority.urgent": "Hitno",
   "tasks.priority.none": "Ostalo",
 
-  "tasks.status.todo": "To Do",
+  "tasks.status.todo": "Za uraditi",
   "tasks.status.inProgress": "U toku",
   "tasks.status.review": "Pregled",
   "tasks.status.done": "Gotovo",
