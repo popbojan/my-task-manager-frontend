@@ -1,17 +1,40 @@
 import { TaskPriority, TaskStatus, type Task } from "@/api/generated";
 import type { TranslationKey } from "@/i18n/locales";
+import type { ComponentType } from "react";
+import {
+  RowIconBolt,
+  RowIconFlame,
+  RowIconFolder,
+  RowIconStar,
+} from "@/pages/recurring-tasks/recurringPremiumIcons";
+
+export type PriorityIcon = ComponentType<{ className?: string }>;
 
 export const PRIORITY_SECTIONS: {
   priority: TaskPriority;
   labelKey: TranslationKey;
+  Icon: PriorityIcon;
 }[] = [
   {
     priority: TaskPriority.ImportantUrgent,
     labelKey: "tasks.priority.importantUrgent",
+    Icon: RowIconFlame,
   },
-  { priority: TaskPriority.Important, labelKey: "tasks.priority.important" },
-  { priority: TaskPriority.Urgent, labelKey: "tasks.priority.urgent" },
-  { priority: TaskPriority.None, labelKey: "tasks.priority.none" },
+  {
+    priority: TaskPriority.Important,
+    labelKey: "tasks.priority.important",
+    Icon: RowIconStar,
+  },
+  {
+    priority: TaskPriority.Urgent,
+    labelKey: "tasks.priority.urgent",
+    Icon: RowIconBolt,
+  },
+  {
+    priority: TaskPriority.None,
+    labelKey: "tasks.priority.none",
+    Icon: RowIconFolder,
+  },
 ];
 
 export const STATUS_COLUMNS: {

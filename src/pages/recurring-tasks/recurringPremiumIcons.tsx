@@ -124,3 +124,16 @@ export function RowIconBolt({ className }: IconProps) {
     </svg>
   );
 }
+
+export function RowIconFolder({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 7.5V18a1.5 1.5 0 0 0 1.5 1.5H18A1.5 1.5 0 0 0 19.5 18V8.5A1.5 1.5 0 0 0 18 7H12L10 5H5.5A1.5 1.5 0 0 0 4 6.5v1z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}

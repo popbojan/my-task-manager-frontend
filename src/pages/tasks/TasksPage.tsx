@@ -5,6 +5,12 @@ import { authApi } from "@/api/authClient";
 import { TaskPriority, TaskStatus, type Task } from "@/api/generated";
 import { useAuth } from "@/auth/AuthContext";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import {
+  StatIconAlert,
+  StatIconChart,
+  StatIconCheck,
+  StatIconFlame,
+} from "@/pages/recurring-tasks/recurringPremiumIcons";
 import TaskFormModal from "./TaskFormModal";
 import DeleteTaskModal from "./DeleteTaskModal";
 import TaskDeadline from "./TaskDeadline";
@@ -13,6 +19,7 @@ import {
   PRIORITY_SECTIONS,
   STATUS_COLUMNS,
 } from "./taskBoardConfig";
+import { computeTaskPageStats } from "./taskStats";
 
 type BoardCell = {
   priority: TaskPriority;
@@ -73,6 +80,12 @@ export default function TasksPage() {
     enabled: !!accessToken,
   });
 
+  const userQuery = useQuery({
+    queryKey: ["current-user"],
+    queryFn: () => authApi.getCurrentUser(),
+    enabled: !!accessToken,
+  });
+
   const updateTaskMutation = useMutation({
     mutationFn: ({
       taskId,
@@ -121,6 +134,13 @@ export default function TasksPage() {
     () => groupTasksForBoard(tasksQuery.data ?? []),
     [tasksQuery.data],
   );
+
+  const stats = useMemo(
+    () => computeTaskPageStats(tasksQuery.data ?? []),
+    [tasksQuery.data],
+  );
+
+  const userEmail = userQuery.data?.email ?? "…";
 
   function handleDragStart(event: DragEvent<HTMLElement>, taskId: string) {
     event.dataTransfer.setData("text/task-id", taskId);
@@ -202,127 +222,239 @@ export default function TasksPage() {
     deleteTaskMutation.mutate(deleteModal.task.id);
   }
 
+  const isLoading = tasksQuery.isLoading;
+  const isError = tasksQuery.isError;
+  const isSuccess = tasksQuery.isSuccess;
+
   return (
     <div className="tasks-page">
-      {tasksQuery.isLoading && (
-        <p className="tasks-page__state">{t("tasks.loading")}</p>
-      )}
-
-      {tasksQuery.isError && (
-        <p className="tasks-page__state">{t("tasks.error")}</p>
-      )}
-
-      {tasksQuery.isSuccess && (
-        <div className="task-board">
-          {PRIORITY_SECTIONS.map(({ priority, labelKey }) => {
-            const rowTaskCount = STATUS_COLUMNS.reduce(
-              (total, { status }) => total + taskBoard[priority][status].length,
-              0,
-            );
-
-            return (
-              <section
-                key={priority}
-                className={`task-priority-row task-priority-row--${priority}`}
-              >
-                <header className="task-priority-row__header">
-                  <h2 className="task-priority-row__title">{t(labelKey)}</h2>
-                  <span className="task-priority-row__count">
-                    {rowTaskCount}
-                  </span>
-                </header>
-
-                <div className="task-priority-row__columns">
-                  {STATUS_COLUMNS.map(({ status, labelKey }) => (
-                    <div
-                      key={status}
-                      className={`task-column${isSameCell(dragOverCell, { priority, status }) ? " task-column--drag-over" : ""}`}
-                      onDragOver={(event) =>
-                        handleDragOver(event, { priority, status })
-                      }
-                      onDragLeave={() => setDragOverCell(null)}
-                      onDrop={(event) => handleDrop(event, { priority, status })}
-                    >
-                      <header className="task-column__header">
-                        <h3 className="task-column__title">{t(labelKey)}</h3>
-                        <span className="task-column__count">
-                          {taskBoard[priority][status].length}
-                        </span>
-                      </header>
-
-                      <div className="task-column__cards">
-                        {taskBoard[priority][status].map((task) => (
-                          <article
-                            key={task.id}
-                            className={`task-card${draggedTaskId === task.id ? " task-card--dragging" : ""}`}
-                            draggable
-                            onDragStart={(event) =>
-                              handleDragStart(event, task.id)
-                            }
-                            onDragEnd={handleDragEnd}
-                          >
-                            <div className="task-card__header">
-                              <h4 className="task-card__title">{task.title}</h4>
-                              <div className="task-card__actions">
-                                <button
-                                  type="button"
-                                  className="task-card__action task-card__action--edit"
-                                  aria-label={t("tasks.edit")}
-                                  onClick={() => openEditModal(task.id)}
-                                  onMouseDown={(event) =>
-                                    event.stopPropagation()
-                                  }
-                                >
-                                  <svg
-                                    className="task-card__action-icon"
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
-                                  >
-                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
-                                  </svg>
-                                </button>
-
-                                {task.status !== TaskStatus.Done && (
-                                  <button
-                                    type="button"
-                                    className="task-card__action task-card__action--delete"
-                                    aria-label={t("tasks.delete")}
-                                    onClick={() => openDeleteModal(task)}
-                                    onMouseDown={(event) =>
-                                      event.stopPropagation()
-                                    }
-                                    disabled={deleteTaskMutation.isPending}
-                                  >
-                                    <svg
-                                      className="task-card__action-icon"
-                                      viewBox="0 0 24 24"
-                                      aria-hidden="true"
-                                    >
-                                      <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                                    </svg>
-                                  </button>
-                                )}
-                              </div>
-                            </div>
-
-                            {task.description && (
-                              <p className="task-card__description">
-                                {task.description}
-                              </p>
-                            )}
-
-                            <TaskDeadline deadline={task.deadline} />
-                          </article>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            );
-          })}
+      <section className="tasks-hero">
+        <div className="tasks-hero__overlay" aria-hidden="true" />
+        <div className="tasks-hero__content">
+          <div className="tasks-hero__welcome">
+            <h1 className="tasks-hero__greeting">
+              {t("tasks.hello", { email: userEmail })}
+            </h1>
+            <p className="tasks-hero__summary">
+              {t("tasks.summary", {
+                open: String(stats.open),
+                overdue: String(stats.overdue),
+              })}
+            </p>
+            <p className="tasks-hero__tagline">{t("tasks.tagline")}</p>
+          </div>
         </div>
-      )}
+      </section>
+
+      <div className="tasks-page__body">
+        {isSuccess && (
+          <div className="tasks-page__stats">
+            <article className="tasks-stat-card">
+              <div
+                className="tasks-stat-card__icon-wrap tasks-stat-card__icon-wrap--green"
+                aria-hidden="true"
+              >
+                <StatIconChart className="tasks-stat-card__icon" />
+              </div>
+              <span className="tasks-stat-card__label">
+                {t("tasks.stats.open")}
+              </span>
+              <strong className="tasks-stat-card__value">{stats.open}</strong>
+              <span className="tasks-stat-card__hint">
+                {t("tasks.stats.openHint")}
+              </span>
+            </article>
+            <article className="tasks-stat-card">
+              <div
+                className="tasks-stat-card__icon-wrap tasks-stat-card__icon-wrap--red"
+                aria-hidden="true"
+              >
+                <StatIconAlert className="tasks-stat-card__icon" />
+              </div>
+              <span className="tasks-stat-card__label">
+                {t("tasks.stats.overdue")}
+              </span>
+              <strong className="tasks-stat-card__value">{stats.overdue}</strong>
+              <span className="tasks-stat-card__hint tasks-stat-card__hint--warn">
+                {t("tasks.stats.overdueHint")}
+              </span>
+            </article>
+            <article className="tasks-stat-card">
+              <div
+                className="tasks-stat-card__icon-wrap tasks-stat-card__icon-wrap--green"
+                aria-hidden="true"
+              >
+                <StatIconCheck className="tasks-stat-card__icon" />
+              </div>
+              <span className="tasks-stat-card__label">
+                {t("tasks.stats.completedToday")}
+              </span>
+              <strong className="tasks-stat-card__value">
+                {stats.completedToday}
+              </strong>
+              <span className="tasks-stat-card__hint">
+                {t("tasks.stats.completedHint")}
+              </span>
+            </article>
+            <article className="tasks-stat-card">
+              <div
+                className="tasks-stat-card__icon-wrap tasks-stat-card__icon-wrap--orange"
+                aria-hidden="true"
+              >
+                <StatIconFlame className="tasks-stat-card__icon" />
+              </div>
+              <span className="tasks-stat-card__label">
+                {t("tasks.stats.streak")}
+              </span>
+              <strong className="tasks-stat-card__value">
+                {t("tasks.stats.streakDays", { days: String(stats.streak) })}
+              </strong>
+              <span className="tasks-stat-card__hint tasks-stat-card__hint--orange">
+                {t("tasks.stats.streakHint")}
+              </span>
+            </article>
+          </div>
+        )}
+
+        {isLoading && (
+          <p className="tasks-page__state">{t("tasks.loading")}</p>
+        )}
+
+        {isError && <p className="tasks-page__state">{t("tasks.error")}</p>}
+
+        {isSuccess && (
+          <div className="task-board">
+            {PRIORITY_SECTIONS.map(({ priority, labelKey, Icon }) => {
+              const rowTaskCount = STATUS_COLUMNS.reduce(
+                (total, { status }) =>
+                  total + taskBoard[priority][status].length,
+                0,
+              );
+
+              return (
+                <section
+                  key={priority}
+                  className={`task-priority-row task-priority-row--${priority}`}
+                >
+                  <header className="task-priority-row__header">
+                    <div className="task-priority-row__title-wrap">
+                      <span
+                        className="task-priority-row__icon"
+                        aria-hidden="true"
+                      >
+                        <Icon className="task-priority-row__icon-svg" />
+                      </span>
+                      <h2 className="task-priority-row__title">{t(labelKey)}</h2>
+                    </div>
+                    <span className="task-priority-row__count">
+                      {rowTaskCount}
+                    </span>
+                  </header>
+
+                  <div className="task-priority-row__columns">
+                    {STATUS_COLUMNS.map(({ status, labelKey: statusLabelKey }) => (
+                      <div
+                        key={status}
+                        className={`task-column${isSameCell(dragOverCell, { priority, status }) ? " task-column--drag-over" : ""}`}
+                        onDragOver={(event) =>
+                          handleDragOver(event, { priority, status })
+                        }
+                        onDragLeave={() => setDragOverCell(null)}
+                        onDrop={(event) =>
+                          handleDrop(event, { priority, status })
+                        }
+                      >
+                        <header className="task-column__header">
+                          <h3 className="task-column__title">
+                            {t(statusLabelKey)}
+                          </h3>
+                          <span className="task-column__count">
+                            {taskBoard[priority][status].length}
+                          </span>
+                        </header>
+
+                        <div className="task-column__cards">
+                          {taskBoard[priority][status].length === 0 ? (
+                            <p className="task-column__empty">
+                              {t("tasks.noTasks")}
+                            </p>
+                          ) : (
+                            taskBoard[priority][status].map((task) => (
+                              <article
+                                key={task.id}
+                                className={`task-card${draggedTaskId === task.id ? " task-card--dragging" : ""}`}
+                                draggable
+                                onDragStart={(event) =>
+                                  handleDragStart(event, task.id)
+                                }
+                                onDragEnd={handleDragEnd}
+                              >
+                                <div className="task-card__header">
+                                  <h4 className="task-card__title">
+                                    {task.title}
+                                  </h4>
+                                  <div className="task-card__actions">
+                                    <button
+                                      type="button"
+                                      className="task-card__action task-card__action--edit"
+                                      aria-label={t("tasks.edit")}
+                                      onClick={() => openEditModal(task.id)}
+                                      onMouseDown={(event) =>
+                                        event.stopPropagation()
+                                      }
+                                    >
+                                      <svg
+                                        className="task-card__action-icon"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                      >
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
+                                      </svg>
+                                    </button>
+
+                                    {task.status !== TaskStatus.Done && (
+                                      <button
+                                        type="button"
+                                        className="task-card__action task-card__action--delete"
+                                        aria-label={t("tasks.delete")}
+                                        onClick={() => openDeleteModal(task)}
+                                        onMouseDown={(event) =>
+                                          event.stopPropagation()
+                                        }
+                                        disabled={deleteTaskMutation.isPending}
+                                      >
+                                        <svg
+                                          className="task-card__action-icon"
+                                          viewBox="0 0 24 24"
+                                          aria-hidden="true"
+                                        >
+                                          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                        </svg>
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {task.description && (
+                                  <p className="task-card__description">
+                                    {task.description}
+                                  </p>
+                                )}
+
+                                <TaskDeadline deadline={task.deadline} />
+                              </article>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
       <TaskFormModal
         isOpen={formModal.isOpen}
@@ -347,7 +479,11 @@ export default function TasksPage() {
         title={t("tasks.newTask")}
         onClick={openCreateModal}
       >
-        <svg className="tasks-page__fab-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <svg
+          className="tasks-page__fab-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
         </svg>
       </button>
