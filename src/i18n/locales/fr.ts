@@ -22,7 +22,13 @@ export const fr: Record<TranslationKey, string> = {
   "header.nav.recurringTasks": "Tâches récurrentes",
   "header.logout": "Se déconnecter",
 
-  "login.title": "Connexion",
+  "login.title": "Bon retour",
+  "login.subtitle":
+    "Atteignez vos objectifs. Connectez-vous et restez concentré.",
+  "login.hero.kicker": "DISCIPLINE • SUCCÈS • CROISSANCE",
+  "login.hero.titleLine1": "Chaque pas compte",
+  "login.hero.titleLine2": "sur le chemin vers",
+  "login.hero.titleLine3": "vos objectifs.",
   "login.subtitleEmail":
     "Nous vous enverrons un code de connexion unique par e-mail.",
   "login.subtitleOtp": "Nous avons envoyé un code à {{email}}.",

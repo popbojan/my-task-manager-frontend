@@ -20,7 +20,13 @@ export const de = {
   "header.nav.recurringTasks": "Wiederholende Aufgaben",
   "header.logout": "Abmelden",
 
-  "login.title": "Anmelden",
+  "login.title": "Willkommen zurück",
+  "login.subtitle":
+    "Erreiche deine Ziele. Melde dich an und bleibe fokussiert.",
+  "login.hero.kicker": "DISZIPLIN • ERFOLG • WACHSTUM",
+  "login.hero.titleLine1": "Jeder Schritt zählt",
+  "login.hero.titleLine2": "auf dem Weg zu",
+  "login.hero.titleLine3": "deinen Zielen.",
   "login.subtitleEmail": "Wir schicken Ihnen einen Einmalcode zur Anmeldung per E-Mail.",
   "login.subtitleOtp": "Wir haben einen Code an {{email}} geschickt.",
   "login.email": "E-Mail-Adresse",

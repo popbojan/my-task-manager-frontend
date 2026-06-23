@@ -22,7 +22,13 @@ export const sr: Record<TranslationKey, string> = {
   "header.nav.recurringTasks": "Ponavljajući zadaci",
   "header.logout": "Odjava",
 
-  "login.title": "Prijava",
+  "login.title": "Dobrodošli nazad",
+  "login.subtitle":
+    "Ostvarite svoje ciljeve. Prijavite se i ostanite fokusirani.",
+  "login.hero.kicker": "DISCIPLINA • USPEH • RAST",
+  "login.hero.titleLine1": "Svaki korak je važan",
+  "login.hero.titleLine2": "na putu ka",
+  "login.hero.titleLine3": "vašim ciljevima.",
   "login.subtitleEmail": "Poslaćemo vam jednokratni kod za prijavu putem e-pošte.",
   "login.subtitleOtp": "Poslali smo kod na {{email}}.",
   "login.email": "E-mail adresa",
