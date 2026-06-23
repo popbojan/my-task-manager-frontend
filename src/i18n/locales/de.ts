@@ -8,10 +8,10 @@ export const de = {
   "common.close": "Schließen",
   "common.backToLogin": "Zurück zum Login",
 
-  "language.de": "Deutsch",
-  "language.en": "Englisch",
   "language.sr": "Serbisch",
+  "language.de": "Deutsch",
   "language.fr": "Französisch",
+  "language.en": "Englisch",
   "language.switch": "Sprache wählen",
 
   "header.brand": "My Task Manager",

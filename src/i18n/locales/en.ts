@@ -23,7 +23,7 @@ export const en: Record<TranslationKey, string> = {
   "header.logout": "Log out",
 
   "login.title": "Sign in",
-  "login.subtitleEmail": "We will send you a one-time login code by email.",
+  "login.subtitleEmail": "We will send you a one-time sign-in code by email..",
   "login.subtitleOtp": "We sent a code to {{email}}.",
   "login.email": "Email address",
   "login.emailPlaceholder": "name@domain.com",
