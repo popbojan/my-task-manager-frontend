@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { authApi } from "@/api/authClient";
 import { useApiLanguage, useLanguage } from "@/i18n/LanguageProvider";
 import LanguageSwitcher from "@/i18n/LanguageSwitcher";
+import LoginHelpTooltip from "@/pages/login/LoginHelpTooltip";
 import { useState, type ChangeEvent } from "react";
 import { useAuth } from "@/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -50,7 +51,10 @@ export default function LoginPage() {
       <LanguageSwitcher className="language-switcher--login" />
 
       <div className="login-card">
-        <h1 className="login-title">{t("login.title")}</h1>
+        <div className="login-title-row">
+          <h1 className="login-title">{t("login.title")}</h1>
+          <LoginHelpTooltip />
+        </div>
 
         {step === "email" && (
           <>

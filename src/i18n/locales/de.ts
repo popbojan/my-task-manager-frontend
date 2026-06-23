@@ -33,6 +33,16 @@ export const de = {
   "login.checking": "Prüfe…",
   "login.errorOtpRequest": "OTP konnte nicht gesendet werden.",
   "login.errorLogin": "OTP ist ungültig oder abgelaufen.",
+  "login.help.trigger": "Anleitung zur Anmeldung anzeigen",
+  "login.help.title": "So funktioniert die Anmeldung",
+  "login.help.step1":
+    "Geben Sie Ihre E-Mail-Adresse ein und klicken Sie auf „Code senden“, um einen einmaligen Anmeldecode zu erhalten.",
+  "login.help.step2":
+    "Prüfen Sie Ihr E-Mail-Postfach und geben Sie den Code auf der nächsten Seite ein.",
+  "login.help.step3":
+    "Mit diesem Code melden Sie sich an und können die Anwendung sofort nutzen.",
+  "login.help.note":
+    "Jedes Mal, wenn Sie dieselbe E-Mail-Adresse verwenden, stehen Ihnen Ihre gespeicherten Aufgaben zur Verfügung. Es ist kein Passwort erforderlich.",
 
   "notFound.message": "Seite nicht gefunden.",
 

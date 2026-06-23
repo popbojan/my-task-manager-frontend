@@ -36,6 +36,16 @@ export const fr: Record<TranslationKey, string> = {
   "login.checking": "Vérification…",
   "login.errorOtpRequest": "Impossible d'envoyer le code OTP.",
   "login.errorLogin": "Le code OTP est invalide ou expiré.",
+  "login.help.trigger": "Afficher les instructions de connexion",
+  "login.help.title": "Comment se connecter",
+  "login.help.step1":
+    "Saisissez votre adresse e-mail et cliquez sur « Envoyer le code » pour recevoir un code de connexion unique.",
+  "login.help.step2":
+    "Consultez votre boîte mail et saisissez le code à l'écran suivant.",
+  "login.help.step3":
+    "Utilisez ce code pour vous connecter et accéder immédiatement à l'application.",
+  "login.help.note":
+    "Chaque fois que vous utilisez la même adresse e-mail, vos tâches enregistrées restent disponibles. Aucun mot de passe n'est requis.",
 
   "notFound.message": "Page introuvable.",
 

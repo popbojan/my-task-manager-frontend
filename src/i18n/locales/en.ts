@@ -35,6 +35,16 @@ export const en: Record<TranslationKey, string> = {
   "login.checking": "Checking…",
   "login.errorOtpRequest": "Could not send OTP.",
   "login.errorLogin": "OTP is invalid or expired.",
+  "login.help.trigger": "Show sign-in instructions",
+  "login.help.title": "How sign-in works",
+  "login.help.step1":
+    "Enter your email address and click “Send code” to receive a one-time sign-in code.",
+  "login.help.step2":
+    "Check your inbox and enter the code on the next screen.",
+  "login.help.step3":
+    "Use this code to sign in and open the application right away.",
+  "login.help.note":
+    "Whenever you use the same email address, your saved tasks will be available. No password is required.",
 
   "notFound.message": "Page not found.",
 

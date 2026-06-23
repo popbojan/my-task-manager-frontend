@@ -35,6 +35,16 @@ export const sr: Record<TranslationKey, string> = {
   "login.checking": "Provera…",
   "login.errorOtpRequest": "OTP nije mogao biti poslat.",
   "login.errorLogin": "OTP je nevažeći ili je istekao.",
+  "login.help.trigger": "Prikaži uputstvo za prijavu",
+  "login.help.title": "Kako funkcioniše prijava",
+  "login.help.step1":
+    "Unesite svoju e-mail adresu i kliknite na „Pošalji kod“ da biste dobili jednokratni kod za prijavu.",
+  "login.help.step2":
+    "Proverite svoj e-mail i unesite kod na sledećem ekranu.",
+  "login.help.step3":
+    "Pomoću tog koda se prijavljujete i odmah možete koristiti aplikaciju.",
+  "login.help.note":
+    "Svaki put kada koristite istu e-mail adresu, vaši sačuvani zadaci su vam dostupni. Lozinka nije potrebna.",
 
   "notFound.message": "Stranica nije pronađena.",
 

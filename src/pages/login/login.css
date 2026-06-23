@@ -17,10 +17,111 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
+.login-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
 .login-title {
     margin: 0;
     font-size: 24px;
     font-weight: 600;
+}
+
+.login-help {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.login-help__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #3b82f6;
+    cursor: pointer;
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.login-help__trigger:hover,
+.login-help__trigger[aria-expanded="true"] {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.login-help__trigger:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
+}
+
+.login-help__icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: currentColor;
+}
+
+.login-help__popover {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 20;
+    width: min(22rem, calc(100vw - 40px));
+    padding: 16px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.14);
+}
+
+.login-help__popover::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    right: 14px;
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    border-left: 1px solid #e5e7eb;
+    transform: rotate(45deg);
+}
+
+.login-help__title {
+    margin: 0 0 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.login-help__steps {
+    margin: 0;
+    padding-left: 1.15rem;
+    color: #374151;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.login-help__steps li + li {
+    margin-top: 8px;
+}
+
+.login-help__note {
+    margin: 12px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid #f3f4f6;
+    color: #6b7280;
+    font-size: 12px;
+    line-height: 1.5;
 }
 
 .login-subtitle {
