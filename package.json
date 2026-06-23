@@ -15,7 +15,7 @@
     "generate:api": "openapi-generator-cli generate -i node_modules/@popbojan/task-manager-contract/openapi.yaml -g typescript-fetch -o src/api/generated"
   },
   "dependencies": {
-    "@popbojan/task-manager-contract": "github:popbojan/my-task-manager-spec#eb78f2461a68c5dd692123c38b001af234dcdf15",
+    "@popbojan/task-manager-contract": "github:popbojan/my-task-manager-spec#v1.2.1",
     "@tanstack/react-query": "^5.90.21",
     "@tanstack/react-query-devtools": "^5.91.3",
     "react": "^19.2.0",

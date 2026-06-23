@@ -32,7 +32,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 function readStoredLanguage(): AppLanguage {
   const stored = localStorage.getItem(STORAGE_KEY);
 
-  if (stored === "de" || stored === "en" || stored === "sr") {
+  if (stored === "de" || stored === "en" || stored === "sr" || stored === "fr") {
     return stored;
   }
 

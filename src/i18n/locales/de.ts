@@ -11,6 +11,7 @@ export const de = {
   "language.de": "Deutsch",
   "language.en": "Englisch",
   "language.sr": "Serbisch",
+  "language.fr": "Französisch",
   "language.switch": "Sprache wählen",
 
   "header.brand": "My Task Manager",

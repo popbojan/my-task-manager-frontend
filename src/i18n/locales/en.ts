@@ -13,6 +13,7 @@ export const en: Record<TranslationKey, string> = {
   "language.de": "German",
   "language.en": "English",
   "language.sr": "Serbian",
+  "language.fr": "French",
   "language.switch": "Choose language",
 
   "header.brand": "My Task Manager",
