@@ -117,7 +117,7 @@ export const sr: Record<TranslationKey, string> = {
   "recurring.frequency.weekly": "Nedeljni zadaci",
   "recurring.frequency.monthly": "Mesečni zadaci",
 
-  "recurring.status.todo": "To Do",
+  "recurring.status.todo": "Za uraditi",
   "recurring.status.inProgress": "U toku",
   "recurring.status.done": "Gotovo",
 

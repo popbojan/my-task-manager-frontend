@@ -113,7 +113,7 @@ export const de = {
   "recurring.frequency.weekly": "Wöchentliche Aufgaben",
   "recurring.frequency.monthly": "Monatliche Aufgaben",
 
-  "recurring.status.todo": "To Do",
+  "recurring.status.todo": "Offene Aufgaben",
   "recurring.status.inProgress": "In Bearbeitung",
   "recurring.status.done": "Fertig",
 
