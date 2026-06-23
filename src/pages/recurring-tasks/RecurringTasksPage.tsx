@@ -275,83 +275,83 @@ export default function RecurringTasksPage() {
             </p>
             <p className="recurring-hero__tagline">{t("recurring.tagline")}</p>
           </div>
-
-          {isSuccess && (
-            <div className="recurring-hero__stats">
-              <article
-                className={`recurring-stat-card recurring-stat-card--score recurring-stat-card--${globalScoreTier}`}
-              >
-                <div
-                  className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--orange"
-                  aria-hidden="true"
-                >
-                  <StatIconFlame className="recurring-stat-card__icon" />
-                </div>
-                <span className="recurring-stat-card__label">
-                  {t("recurring.score.total")}
-                </span>
-                <strong className="recurring-stat-card__value">{globalScore}</strong>
-                <span className="recurring-stat-card__hint">
-                  {t("recurring.score.subtitle")}
-                </span>
-              </article>
-              <article className="recurring-stat-card recurring-stat-card--daily">
-                <div
-                  className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--green"
-                  aria-hidden="true"
-                >
-                  <StatIconChart className="recurring-stat-card__icon" />
-                </div>
-                <span className="recurring-stat-card__label">
-                  {t("recurring.score.daily")}
-                </span>
-                <strong className="recurring-stat-card__value">
-                  {frequencyCounts[RecurringFrequency.Daily]}
-                </strong>
-                <span className="recurring-stat-card__hint">
-                  {t("recurring.stats.dailyHint")}
-                </span>
-              </article>
-              <article className="recurring-stat-card recurring-stat-card--weekly">
-                <div
-                  className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--blue"
-                  aria-hidden="true"
-                >
-                  <StatIconStar className="recurring-stat-card__icon" />
-                </div>
-                <span className="recurring-stat-card__label">
-                  {t("recurring.score.weekly")}
-                </span>
-                <strong className="recurring-stat-card__value">
-                  {frequencyCounts[RecurringFrequency.Weekly]}
-                </strong>
-                <span className="recurring-stat-card__hint">
-                  {t("recurring.stats.weeklyHint")}
-                </span>
-              </article>
-              <article className="recurring-stat-card recurring-stat-card--monthly">
-                <div
-                  className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--yellow"
-                  aria-hidden="true"
-                >
-                  <RowIconBolt className="recurring-stat-card__icon" />
-                </div>
-                <span className="recurring-stat-card__label">
-                  {t("recurring.score.monthly")}
-                </span>
-                <strong className="recurring-stat-card__value">
-                  {frequencyCounts[RecurringFrequency.Monthly]}
-                </strong>
-                <span className="recurring-stat-card__hint">
-                  {t("recurring.stats.monthlyHint")}
-                </span>
-              </article>
-            </div>
-          )}
         </div>
       </section>
 
       <div className="recurring-tasks-page__body">
+        {isSuccess && (
+          <div className="recurring-page__stats">
+            <article
+              className={`recurring-stat-card recurring-stat-card--score recurring-stat-card--${globalScoreTier}`}
+            >
+              <div
+                className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--orange"
+                aria-hidden="true"
+              >
+                <StatIconFlame className="recurring-stat-card__icon" />
+              </div>
+              <span className="recurring-stat-card__label">
+                {t("recurring.score.total")}
+              </span>
+              <strong className="recurring-stat-card__value">{globalScore}</strong>
+              <span className="recurring-stat-card__hint">
+                {t("recurring.score.subtitle")}
+              </span>
+            </article>
+            <article className="recurring-stat-card recurring-stat-card--daily">
+              <div
+                className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--green"
+                aria-hidden="true"
+              >
+                <StatIconChart className="recurring-stat-card__icon" />
+              </div>
+              <span className="recurring-stat-card__label">
+                {t("recurring.score.daily")}
+              </span>
+              <strong className="recurring-stat-card__value">
+                {frequencyCounts[RecurringFrequency.Daily]}
+              </strong>
+              <span className="recurring-stat-card__hint">
+                {t("recurring.stats.dailyHint")}
+              </span>
+            </article>
+            <article className="recurring-stat-card recurring-stat-card--weekly">
+              <div
+                className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--blue"
+                aria-hidden="true"
+              >
+                <StatIconStar className="recurring-stat-card__icon" />
+              </div>
+              <span className="recurring-stat-card__label">
+                {t("recurring.score.weekly")}
+              </span>
+              <strong className="recurring-stat-card__value">
+                {frequencyCounts[RecurringFrequency.Weekly]}
+              </strong>
+              <span className="recurring-stat-card__hint">
+                {t("recurring.stats.weeklyHint")}
+              </span>
+            </article>
+            <article className="recurring-stat-card recurring-stat-card--monthly">
+              <div
+                className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--yellow"
+                aria-hidden="true"
+              >
+                <RowIconBolt className="recurring-stat-card__icon" />
+              </div>
+              <span className="recurring-stat-card__label">
+                {t("recurring.score.monthly")}
+              </span>
+              <strong className="recurring-stat-card__value">
+                {frequencyCounts[RecurringFrequency.Monthly]}
+              </strong>
+              <span className="recurring-stat-card__hint">
+                {t("recurring.stats.monthlyHint")}
+              </span>
+            </article>
+          </div>
+        )}
+
         {isLoading && (
           <p className="recurring-tasks-page__state">{t("recurring.loading")}</p>
         )}
