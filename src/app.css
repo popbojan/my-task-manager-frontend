@@ -1,9 +1,8 @@
 body {
   margin: 0;
-  background: #f4f6f8;
+  background: #101412;
 }
 
 #root {
-  padding-top: 56px;
   min-height: 100%;
 }

@@ -1,5 +1,5 @@
-import { useEffect, useId, useRef, useState } from "react";
-import { useLanguage } from "@/i18n/LanguageProvider";
+import {useEffect, useId, useRef, useState} from "react";
+import {useLanguage} from "@/i18n/LanguageProvider";
 
 export default function LoginHelpTooltip() {
   const { t } = useLanguage();

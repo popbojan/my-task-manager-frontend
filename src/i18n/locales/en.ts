@@ -95,6 +95,12 @@ export const en: Record<TranslationKey, string> = {
 
   "recurring.loading": "Loading recurring tasks…",
   "recurring.error": "Could not load recurring tasks.",
+  "recurring.hello": "Hello, {{email}}",
+  "recurring.summary": "{{total}} recurring tasks • {{streak}} day streak",
+  "recurring.tagline": "Stay consistent today.",
+  "recurring.stats.dailyHint": "Daily routines",
+  "recurring.stats.weeklyHint": "Weekly goals",
+  "recurring.stats.monthlyHint": "Monthly goals",
   "recurring.newTask": "New recurring task",
   "recurring.createTask": "New recurring task",
   "recurring.editTask": "Edit recurring task",

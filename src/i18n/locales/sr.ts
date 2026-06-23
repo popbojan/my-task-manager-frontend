@@ -96,6 +96,12 @@ export const sr: Record<TranslationKey, string> = {
 
   "recurring.loading": "Učitavanje ponavljajućih zadataka…",
   "recurring.error": "Ponavljajući zadaci nisu mogli biti učitani.",
+  "recurring.hello": "Zdravo, {{email}}",
+  "recurring.summary": "{{total}} ponavljajućih zadataka • {{streak}} dana niza",
+  "recurring.tagline": "Ostani dosledan danas.",
+  "recurring.stats.dailyHint": "Dnevne rutine",
+  "recurring.stats.weeklyHint": "Nedeljni ciljevi",
+  "recurring.stats.monthlyHint": "Mesečni ciljevi",
   "recurring.newTask": "Novi ponavljajući zadatak",
   "recurring.createTask": "Novi ponavljajući zadatak",
   "recurring.editTask": "Izmeni ponavljajući zadatak",

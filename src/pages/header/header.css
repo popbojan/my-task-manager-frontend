@@ -3,119 +3,172 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 56px;
+  height: 72px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: 1rem;
-  padding: 0 1.25rem;
-  background: #ffffff;
-  border-bottom: 1px solid #dfe1e6;
-  box-shadow: 0 1px 3px rgba(9, 30, 66, 0.08);
+  gap: 1.5rem;
+  padding: 0 2rem;
+  background: rgba(8, 20, 16, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   z-index: 1000;
+}
+
+.app-header--hero {
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
 }
 
 .app-header__brand {
   justify-self: start;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
-  color: #0052cc;
+  letter-spacing: -0.02em;
+  color: #ffffff;
   white-space: nowrap;
+}
+
+.app-header--hero .app-header__brand {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
 }
 
 .app-header__nav {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem;
-  border-radius: 10px;
-  background: #f4f5f7;
-  border: 1px solid #ebecf0;
+  gap: 0.4rem;
+  padding: 0.38rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.app-header--hero .app-header__nav {
+  gap: 0.4rem;
+  padding: 0.38rem;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.16);
+  border: none;
 }
 
 .app-header__nav-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.875rem;
-  border-radius: 8px;
-  color: #42526e;
-  font-size: 0.8125rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.2;
   text-decoration: none;
   white-space: nowrap;
+  background: transparent;
   transition:
-    background 0.15s ease,
+    background-color 0.15s ease,
     color 0.15s ease,
     box-shadow 0.15s ease;
 }
 
-.app-header__nav-icon {
-  width: 1.125rem;
-  height: 1.125rem;
-  fill: currentColor;
-  flex-shrink: 0;
+.app-header--hero .app-header__nav-link:not(.app-header__nav-link--active) {
+  color: rgba(255, 255, 255, 0.52);
+  background: transparent;
 }
 
-.app-header__nav-label {
-  line-height: 1;
+.app-header__nav-link:hover:not(.app-header__nav-link--active) {
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.app-header__nav-link:hover {
-  color: #0052cc;
+.app-header--hero
+  .app-header__nav-link:hover:not(.app-header__nav-link--active) {
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.app-header__nav-link--active {
-  background: #ffffff;
-  color: #0052cc;
-  box-shadow: 0 1px 3px rgba(9, 30, 66, 0.12);
+.app-header__nav-link--active,
+.app-header__nav-link--active:hover,
+.app-header__nav-link--active:focus-visible {
+  color: #ffffff !important;
+  font-weight: 700;
+  background-color: #1b4332 !important;
+  box-shadow:
+    0 4px 16px rgba(27, 67, 50, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.app-header--hero .app-header__nav-link--active,
+.app-header--hero .app-header__nav-link--active:hover,
+.app-header--hero .app-header__nav-link--active:focus-visible {
+  color: #ffffff !important;
+  background-color: #1b4332 !important;
+  box-shadow:
+    0 4px 18px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 .app-header__actions {
   justify-self: end;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.65rem;
+}
+
+.app-header__language {
+  position: static;
 }
 
 .app-header__logout {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 0;
-  border: 1px solid #dfe1e6;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #42526e;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.85);
   cursor: pointer;
+  box-shadow: none;
   transition:
     background 0.15s ease,
     border-color 0.15s ease,
     color 0.15s ease;
 }
 
+.app-header--hero .app-header__logout {
+  background: rgba(0, 0, 0, 0.14);
+  border: none;
+  color: rgba(255, 255, 255, 0.62);
+}
+
 .app-header__logout-icon {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.2rem;
+  height: 1.2rem;
   fill: currentColor;
 }
 
 .app-header__logout:hover {
-  background: #f4f5f7;
-  border-color: #0052cc;
-  color: #0052cc;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
-@media (max-width: 720px) {
+.app-header--hero .app-header__logout:hover {
+  background: rgba(0, 0, 0, 0.22);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+@media (max-width: 900px) {
   .app-header {
     grid-template-columns: auto 1fr auto;
-    gap: 0.5rem;
-    padding: 0 0.75rem;
+    gap: 0.75rem;
+    padding: 0 1rem;
   }
 
   .app-header__brand {
@@ -134,56 +187,7 @@
   }
 
   .app-header__nav-link {
-    gap: 0.3rem;
-    padding: 0.35rem 0.625rem;
-    font-size: 0.75rem;
-  }
-
-  .app-header__nav-icon {
-    width: 1rem;
-    height: 1rem;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .app-header {
-    background: #22272b;
-    border-bottom-color: #454f59;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-  }
-
-  .app-header__brand {
-    color: #579dff;
-  }
-
-  .app-header__nav {
-    background: #282e33;
-    border-color: #454f59;
-  }
-
-  .app-header__nav-link {
-    color: rgba(255, 255, 255, 0.75);
-  }
-
-  .app-header__nav-link:hover {
-    color: #85b8ff;
-  }
-
-  .app-header__nav-link--active {
-    background: #1c2b41;
-    color: #85b8ff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  }
-
-  .app-header__logout {
-    background: #282e33;
-    border-color: #454f59;
-    color: rgba(255, 255, 255, 0.85);
-  }
-
-  .app-header__logout:hover {
-    background: #1c2b41;
-    border-color: #579dff;
-    color: #579dff;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.8125rem;
   }
 }

@@ -17,6 +17,13 @@ import {
   FREQUENCY_SECTIONS,
   STATUS_COLUMNS,
 } from "./recurringBoardConfig";
+import {
+  StatIconChart,
+  StatIconCheck,
+  StatIconFlame,
+  StatIconStar,
+  RowIconBolt,
+} from "./recurringPremiumIcons";
 import { getGlobalScoreTier } from "./streakDisplay";
 
 type BoardCell = {
@@ -97,6 +104,12 @@ export default function RecurringTasksPage() {
     enabled: !!accessToken,
   });
 
+  const userQuery = useQuery({
+    queryKey: ["current-user"],
+    queryFn: () => authApi.getCurrentUser(),
+    enabled: !!accessToken,
+  });
+
   const updateTaskMutation = useMutation({
     mutationFn: ({
       recurringTaskId,
@@ -165,6 +178,8 @@ export default function RecurringTasksPage() {
 
   const globalScore = progressQuery.data?.allTasksStreak ?? 0;
   const globalScoreTier = getGlobalScoreTier(globalScore);
+  const totalTasks = tasksQuery.data?.length ?? 0;
+  const userEmail = userQuery.data?.email ?? "…";
 
   function handleDragStart(event: DragEvent<HTMLElement>, taskId: string) {
     event.dataTransfer.setData("text/recurring-task-id", taskId);
@@ -245,197 +260,255 @@ export default function RecurringTasksPage() {
 
   return (
     <div className="recurring-tasks-page">
-      {isLoading && (
-        <p className="recurring-tasks-page__state">
-          {t("recurring.loading")}
-        </p>
-      )}
+      <section className="recurring-hero">
+        <div className="recurring-hero__overlay" aria-hidden="true" />
+        <div className="recurring-hero__content">
+          <div className="recurring-hero__welcome">
+            <h1 className="recurring-hero__greeting">
+              {t("recurring.hello", { email: userEmail })}
+            </h1>
+            <p className="recurring-hero__summary">
+              {t("recurring.summary", {
+                total: String(totalTasks),
+                streak: String(globalScore),
+              })}
+            </p>
+            <p className="recurring-hero__tagline">{t("recurring.tagline")}</p>
+          </div>
 
-      {isError && (
-        <p className="recurring-tasks-page__state">{t("recurring.error")}</p>
-      )}
-
-      {isSuccess && (
-        <>
-          <section
-            className="recurring-score-panel"
-            aria-label={t("recurring.score.title")}
-          >
-            <header className="recurring-score-panel__header">
-              <h2 className="recurring-score-panel__title">
-                {t("recurring.score.title")}
-              </h2>
-              <p className="recurring-score-panel__subtitle">
-                {t("recurring.score.subtitle")}
-              </p>
-            </header>
-
-            <div className="recurring-score-panel__table-wrap">
-              <table className="recurring-score-panel__table">
-                <thead>
-                  <tr>
-                    <th>{t("recurring.score.total")}</th>
-                    <th>{t("recurring.score.daily")}</th>
-                    <th>{t("recurring.score.weekly")}</th>
-                    <th>{t("recurring.score.monthly")}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <span
-                        className={`recurring-score-panel__score recurring-score-panel__score--${globalScoreTier}`}
-                      >
-                        <span className="recurring-score-panel__score-tag">
-                          {t("recurring.score.label")}
-                        </span>
-                        <span className="recurring-score-panel__score-value">
-                          {globalScore}
-                        </span>
-                      </span>
-                    </td>
-                    <td>{frequencyCounts[RecurringFrequency.Daily]}</td>
-                    <td>{frequencyCounts[RecurringFrequency.Weekly]}</td>
-                    <td>{frequencyCounts[RecurringFrequency.Monthly]}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <div className="recurring-board">
-            {FREQUENCY_SECTIONS.map(({ frequency, labelKey }) => {
-              const rowTaskCount = STATUS_COLUMNS.reduce(
-                (total, { status }) =>
-                  total + taskBoard[frequency][status].length,
-                0,
-              );
-
-              return (
-                <section
-                  key={frequency}
-                  className={`recurring-frequency-row recurring-frequency-row--${frequency}`}
+          {isSuccess && (
+            <div className="recurring-hero__stats">
+              <article
+                className={`recurring-stat-card recurring-stat-card--score recurring-stat-card--${globalScoreTier}`}
+              >
+                <div
+                  className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--orange"
+                  aria-hidden="true"
                 >
-                  <header className="recurring-frequency-row__header">
+                  <StatIconFlame className="recurring-stat-card__icon" />
+                </div>
+                <span className="recurring-stat-card__label">
+                  {t("recurring.score.total")}
+                </span>
+                <strong className="recurring-stat-card__value">{globalScore}</strong>
+                <span className="recurring-stat-card__hint">
+                  {t("recurring.score.subtitle")}
+                </span>
+              </article>
+              <article className="recurring-stat-card recurring-stat-card--daily">
+                <div
+                  className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--green"
+                  aria-hidden="true"
+                >
+                  <StatIconChart className="recurring-stat-card__icon" />
+                </div>
+                <span className="recurring-stat-card__label">
+                  {t("recurring.score.daily")}
+                </span>
+                <strong className="recurring-stat-card__value">
+                  {frequencyCounts[RecurringFrequency.Daily]}
+                </strong>
+                <span className="recurring-stat-card__hint">
+                  {t("recurring.stats.dailyHint")}
+                </span>
+              </article>
+              <article className="recurring-stat-card recurring-stat-card--weekly">
+                <div
+                  className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--blue"
+                  aria-hidden="true"
+                >
+                  <StatIconStar className="recurring-stat-card__icon" />
+                </div>
+                <span className="recurring-stat-card__label">
+                  {t("recurring.score.weekly")}
+                </span>
+                <strong className="recurring-stat-card__value">
+                  {frequencyCounts[RecurringFrequency.Weekly]}
+                </strong>
+                <span className="recurring-stat-card__hint">
+                  {t("recurring.stats.weeklyHint")}
+                </span>
+              </article>
+              <article className="recurring-stat-card recurring-stat-card--monthly">
+                <div
+                  className="recurring-stat-card__icon-wrap recurring-stat-card__icon-wrap--yellow"
+                  aria-hidden="true"
+                >
+                  <RowIconBolt className="recurring-stat-card__icon" />
+                </div>
+                <span className="recurring-stat-card__label">
+                  {t("recurring.score.monthly")}
+                </span>
+                <strong className="recurring-stat-card__value">
+                  {frequencyCounts[RecurringFrequency.Monthly]}
+                </strong>
+                <span className="recurring-stat-card__hint">
+                  {t("recurring.stats.monthlyHint")}
+                </span>
+              </article>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <div className="recurring-tasks-page__body">
+        {isLoading && (
+          <p className="recurring-tasks-page__state">{t("recurring.loading")}</p>
+        )}
+
+        {isError && (
+          <p className="recurring-tasks-page__state">{t("recurring.error")}</p>
+        )}
+
+        {isSuccess && (
+          <div className="recurring-board">
+          {FREQUENCY_SECTIONS.map(({ frequency, labelKey, Icon }) => {
+            const rowTaskCount = STATUS_COLUMNS.reduce(
+              (total, { status }) =>
+                total + taskBoard[frequency][status].length,
+              0,
+            );
+
+            return (
+              <section
+                key={frequency}
+                className={`recurring-frequency-row recurring-frequency-row--${frequency}`}
+              >
+                <header className="recurring-frequency-row__header">
+                  <div className="recurring-frequency-row__title-wrap">
+                    <span
+                      className="recurring-frequency-row__icon"
+                      aria-hidden="true"
+                    >
+                      <Icon className="recurring-frequency-row__icon-svg" />
+                    </span>
                     <h2 className="recurring-frequency-row__title">
                       {t(labelKey)}
                     </h2>
-                    <span className="recurring-frequency-row__count">
-                      {rowTaskCount}
-                    </span>
-                  </header>
-
-                  <div className="recurring-frequency-row__columns">
-                    {STATUS_COLUMNS.map(({ status, labelKey }) => (
-                      <div
-                        key={status}
-                        className={`recurring-column${isSameCell(dragOverCell, { frequency, status }) ? " recurring-column--drag-over" : ""}`}
-                        onDragOver={(event) =>
-                          handleDragOver(event, { frequency, status })
-                        }
-                        onDragLeave={() => setDragOverCell(null)}
-                        onDrop={(event) =>
-                          handleDrop(event, { frequency, status })
-                        }
-                      >
-                        <header className="recurring-column__header">
-                          <h3 className="recurring-column__title">
-                            {t(labelKey)}
-                          </h3>
-                          <span className="recurring-column__count">
-                            {taskBoard[frequency][status].length}
-                          </span>
-                        </header>
-
-                        <div className="recurring-column__cards">
-                          {taskBoard[frequency][status].length === 0 ? (
-                            <p className="recurring-column__empty">
-                              {t("recurring.noTasks")}
-                            </p>
-                          ) : (
-                            taskBoard[frequency][status].map((task) => (
-                              <article
-                                key={task.id}
-                                className={`recurring-card${draggedTaskId === task.id ? " recurring-card--dragging" : ""}`}
-                                draggable
-                                onDragStart={(event) =>
-                                  handleDragStart(event, task.id)
-                                }
-                                onDragEnd={handleDragEnd}
-                              >
-                                <div className="recurring-card__header">
-                                  <h4 className="recurring-card__title">
-                                    {task.title}
-                                  </h4>
-                                  <div className="recurring-card__actions">
-                                    <button
-                                      type="button"
-                                      className="recurring-card__action recurring-card__action--edit"
-                                      aria-label={t("recurring.edit")}
-                                      onClick={() => openEditModal(task.id)}
-                                      onMouseDown={(event) =>
-                                        event.stopPropagation()
-                                      }
-                                    >
-                                      <svg
-                                        className="recurring-card__action-icon"
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
-                                      >
-                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
-                                      </svg>
-                                    </button>
-
-                                    <button
-                                      type="button"
-                                      className="recurring-card__action recurring-card__action--delete"
-                                      aria-label={t("recurring.delete")}
-                                      onClick={() => openDeleteModal(task)}
-                                      onMouseDown={(event) =>
-                                        event.stopPropagation()
-                                      }
-                                      disabled={deleteTaskMutation.isPending}
-                                    >
-                                      <svg
-                                        className="recurring-card__action-icon"
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
-                                      >
-                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                                      </svg>
-                                    </button>
-                                  </div>
-                                </div>
-
-                                {task.description && (
-                                  <p className="recurring-card__description">
-                                    {task.description}
-                                  </p>
-                                )}
-
-                                <RecurringTaskStreak
-                                  streakCount={task.streakCount}
-                                  tagLabel={t("recurring.streak.label")}
-                                />
-
-                                <p className="recurring-card__reset">
-                                  {t("recurring.nextReset", {
-                                    date: formatResetDate(task.nextResetAt, locale),
-                                  })}
-                                </p>
-                              </article>
-                            ))
-                          )}
-                        </div>
-                      </div>
-                    ))}
                   </div>
-                </section>
-              );
-            })}
-          </div>
-        </>
+                  <span className="recurring-frequency-row__count">
+                    {rowTaskCount}
+                  </span>
+                </header>
+
+                <div className="recurring-frequency-row__columns">
+                  {STATUS_COLUMNS.map(({ status, labelKey }) => (
+                    <div
+                      key={status}
+                      className={`recurring-column${isSameCell(dragOverCell, { frequency, status }) ? " recurring-column--drag-over" : ""}`}
+                      onDragOver={(event) =>
+                        handleDragOver(event, { frequency, status })
+                      }
+                      onDragLeave={() => setDragOverCell(null)}
+                      onDrop={(event) =>
+                        handleDrop(event, { frequency, status })
+                      }
+                    >
+                      <header className="recurring-column__header">
+                        <h3 className="recurring-column__title">
+                          {t(labelKey)}
+                        </h3>
+                        <span className="recurring-column__count">
+                          {taskBoard[frequency][status].length}
+                        </span>
+                      </header>
+
+                      <div className="recurring-column__cards">
+                        {taskBoard[frequency][status].length === 0 ? (
+                          <p className="recurring-column__empty">
+                            {t("recurring.noTasks")}
+                          </p>
+                        ) : (
+                          taskBoard[frequency][status].map((task) => (
+                            <article
+                              key={task.id}
+                              className={`recurring-card${draggedTaskId === task.id ? " recurring-card--dragging" : ""}`}
+                              draggable
+                              onDragStart={(event) =>
+                                handleDragStart(event, task.id)
+                              }
+                              onDragEnd={handleDragEnd}
+                            >
+                              <div className="recurring-card__header">
+                                <h4 className="recurring-card__title">
+                                  {task.title}
+                                </h4>
+                                <div className="recurring-card__actions">
+                                  <button
+                                    type="button"
+                                    className="recurring-card__action recurring-card__action--edit"
+                                    aria-label={t("recurring.edit")}
+                                    onClick={() => openEditModal(task.id)}
+                                    onMouseDown={(event) =>
+                                      event.stopPropagation()
+                                    }
+                                  >
+                                    <svg
+                                      className="recurring-card__action-icon"
+                                      viewBox="0 0 24 24"
+                                      aria-hidden="true"
+                                    >
+                                      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
+                                    </svg>
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    className="recurring-card__action recurring-card__action--delete"
+                                    aria-label={t("recurring.delete")}
+                                    onClick={() => openDeleteModal(task)}
+                                    onMouseDown={(event) =>
+                                      event.stopPropagation()
+                                    }
+                                    disabled={deleteTaskMutation.isPending}
+                                  >
+                                    <svg
+                                      className="recurring-card__action-icon"
+                                      viewBox="0 0 24 24"
+                                      aria-hidden="true"
+                                    >
+                                      <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                    </svg>
+                                  </button>
+                                </div>
+                              </div>
+
+                              {task.description && (
+                                <p className="recurring-card__description">
+                                  {task.description}
+                                </p>
+                              )}
+
+                              <RecurringTaskStreak
+                                streakCount={task.streakCount}
+                                tagLabel={t("recurring.streak.label")}
+                              />
+
+                              <p className="recurring-card__reset">
+                                <svg
+                                  className="recurring-card__reset-icon"
+                                  viewBox="0 0 24 24"
+                                  aria-hidden="true"
+                                >
+                                  <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z" />
+                                </svg>
+                                {t("recurring.nextReset", {
+                                  date: formatResetDate(task.nextResetAt, locale),
+                                })}
+                              </p>
+                            </article>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
+        </div>
       )}
+      </div>
 
       <RecurringTaskFormModal
         isOpen={formModal.isOpen}

@@ -93,6 +93,12 @@ export const de = {
 
   "recurring.loading": "Lade wiederholende Aufgaben…",
   "recurring.error": "Wiederholende Aufgaben konnten nicht geladen werden.",
+  "recurring.hello": "Hallo, {{email}}",
+  "recurring.summary": "{{total}} wiederholende Aufgaben • {{streak}} Tage Serie",
+  "recurring.tagline": "Bleib heute konsequent.",
+  "recurring.stats.dailyHint": "Tägliche Routinen",
+  "recurring.stats.weeklyHint": "Wöchentliche Ziele",
+  "recurring.stats.monthlyHint": "Monatliche Ziele",
   "recurring.newTask": "Neue wiederholende Aufgabe",
   "recurring.createTask": "Neue wiederholende Aufgabe",
   "recurring.editTask": "Wiederholende Aufgabe bearbeiten",

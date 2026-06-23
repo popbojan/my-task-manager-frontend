@@ -97,6 +97,12 @@ export const fr: Record<TranslationKey, string> = {
 
   "recurring.loading": "Chargement des tâches récurrentes…",
   "recurring.error": "Impossible de charger les tâches récurrentes.",
+  "recurring.hello": "Bonjour, {{email}}",
+  "recurring.summary": "{{total}} tâches récurrentes • série de {{streak}} jours",
+  "recurring.tagline": "Restez constant aujourd'hui.",
+  "recurring.stats.dailyHint": "Routines quotidiennes",
+  "recurring.stats.weeklyHint": "Objectifs hebdomadaires",
+  "recurring.stats.monthlyHint": "Objectifs mensuels",
   "recurring.newTask": "Nouvelle tâche récurrente",
   "recurring.createTask": "Nouvelle tâche récurrente",
   "recurring.editTask": "Modifier la tâche récurrente",
