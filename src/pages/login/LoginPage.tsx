@@ -1,6 +1,7 @@
 import "./login.css";
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "@/api/authClient";
+import { DEFAULT_LANGUAGE } from "@/auth/language";
 import { useState, type ChangeEvent } from "react";
 import { useAuth } from "@/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +19,7 @@ export default function LoginPage() {
 const requestOtpMutation = useMutation({
   mutationFn: () =>
     authApi.requestOtp({
-      oTPRequest: { email },
+      oTPRequest: { email, language: DEFAULT_LANGUAGE },
     }),
   onSuccess: (data) => {
     console.log("OTP requested:", data);
@@ -32,7 +33,7 @@ const requestOtpMutation = useMutation({
 const loginWithOtpMutation = useMutation({
   mutationFn: () =>
     authApi.loginWithOtp({
-      loginRequest: { email, otp },
+      loginRequest: { email, otp, language: DEFAULT_LANGUAGE },
     }),
   onSuccess: (data) => {
     console.log("Logged in:", data);

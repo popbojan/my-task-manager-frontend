@@ -15,7 +15,6 @@ Name | Type
 `lastCompletedAt` | Date
 `lastResetAt` | Date
 `nextResetAt` | Date
-`email` | string
 `createdAt` | Date
 `updatedAt` | Date
 
@@ -35,7 +34,6 @@ const example = {
   "lastCompletedAt": 2026-06-06T18:30Z,
   "lastResetAt": 2026-06-07T00:00Z,
   "nextResetAt": 2026-06-07T00:00Z,
-  "email": null,
   "createdAt": null,
   "updatedAt": null,
 } satisfies RecurringTask

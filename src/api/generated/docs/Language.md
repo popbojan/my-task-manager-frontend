@@ -1,26 +1,20 @@
 
-# RecurringTaskProgress
+# Language
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`id` | string
-`allTasksStreak` | number
-`lastCheckedAt` | Date
 
 ## Example
 
 ```typescript
-import type { RecurringTaskProgress } from ''
+import type { Language } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
-  "allTasksStreak": 4,
-  "lastCheckedAt": 2026-06-07T00:00Z,
-} satisfies RecurringTaskProgress
+} satisfies Language
 
 console.log(example)
 
@@ -29,7 +23,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as RecurringTaskProgress
+const exampleParsed = JSON.parse(exampleJSON) as Language
 console.log(exampleParsed)
 ```
 

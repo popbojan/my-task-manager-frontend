@@ -8,6 +8,7 @@ Name | Type
 ------------ | -------------
 `email` | string
 `otp` | string
+`language` | [Language](Language.md)
 
 ## Example
 
@@ -18,6 +19,7 @@ import type { LoginRequest } from ''
 const example = {
   "email": user@example.com,
   "otp": 123456,
+  "language": null,
 } satisfies LoginRequest
 
 console.log(example)

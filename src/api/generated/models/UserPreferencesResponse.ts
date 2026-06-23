@@ -24,19 +24,13 @@ import {
 /**
  * 
  * @export
- * @interface OTPRequest
+ * @interface UserPreferencesResponse
  */
-export interface OTPRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof OTPRequest
-     */
-    email: string;
+export interface UserPreferencesResponse {
     /**
      * 
      * @type {Language}
-     * @memberof OTPRequest
+     * @memberof UserPreferencesResponse
      */
     language: Language;
 }
@@ -44,41 +38,38 @@ export interface OTPRequest {
 
 
 /**
- * Check if a given object implements the OTPRequest interface.
+ * Check if a given object implements the UserPreferencesResponse interface.
  */
-export function instanceOfOTPRequest(value: object): value is OTPRequest {
-    if (!('email' in value) || value['email'] === undefined) return false;
+export function instanceOfUserPreferencesResponse(value: object): value is UserPreferencesResponse {
     if (!('language' in value) || value['language'] === undefined) return false;
     return true;
 }
 
-export function OTPRequestFromJSON(json: any): OTPRequest {
-    return OTPRequestFromJSONTyped(json, false);
+export function UserPreferencesResponseFromJSON(json: any): UserPreferencesResponse {
+    return UserPreferencesResponseFromJSONTyped(json, false);
 }
 
-export function OTPRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): OTPRequest {
+export function UserPreferencesResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserPreferencesResponse {
     if (json == null) {
         return json;
     }
     return {
         
-        'email': json['email'],
         'language': LanguageFromJSON(json['language']),
     };
 }
 
-export function OTPRequestToJSON(json: any): OTPRequest {
-    return OTPRequestToJSONTyped(json, false);
+export function UserPreferencesResponseToJSON(json: any): UserPreferencesResponse {
+    return UserPreferencesResponseToJSONTyped(json, false);
 }
 
-export function OTPRequestToJSONTyped(value?: OTPRequest | null, ignoreDiscriminator: boolean = false): any {
+export function UserPreferencesResponseToJSONTyped(value?: UserPreferencesResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'email': value['email'],
         'language': LanguageToJSON(value['language']),
     };
 }

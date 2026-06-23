@@ -4,6 +4,7 @@ docs/CreateRecurringTaskRequest.md
 docs/CreateTaskRequest.md
 docs/DefaultApi.md
 docs/ErrorResponse.md
+docs/Language.md
 docs/LoginRequest.md
 docs/LoginResponse.md
 docs/OTPRequest.md
@@ -17,10 +18,14 @@ docs/TaskPriority.md
 docs/TaskStatus.md
 docs/UpdateRecurringTaskRequest.md
 docs/UpdateTaskRequest.md
+docs/UpdateUserPreferencesRequest.md
+docs/User.md
+docs/UserPreferencesResponse.md
 index.ts
 models/CreateRecurringTaskRequest.ts
 models/CreateTaskRequest.ts
 models/ErrorResponse.ts
+models/Language.ts
 models/LoginRequest.ts
 models/LoginResponse.ts
 models/OTPRequest.ts
@@ -34,5 +39,8 @@ models/TaskPriority.ts
 models/TaskStatus.ts
 models/UpdateRecurringTaskRequest.ts
 models/UpdateTaskRequest.ts
+models/UpdateUserPreferencesRequest.ts
+models/User.ts
+models/UserPreferencesResponse.ts
 models/index.ts
 runtime.ts

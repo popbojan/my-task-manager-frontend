@@ -24,19 +24,25 @@ import {
 /**
  * 
  * @export
- * @interface OTPRequest
+ * @interface User
  */
-export interface OTPRequest {
+export interface User {
     /**
      * 
      * @type {string}
-     * @memberof OTPRequest
+     * @memberof User
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
      */
     email: string;
     /**
      * 
      * @type {Language}
-     * @memberof OTPRequest
+     * @memberof User
      */
     language: Language;
 }
@@ -44,40 +50,43 @@ export interface OTPRequest {
 
 
 /**
- * Check if a given object implements the OTPRequest interface.
+ * Check if a given object implements the User interface.
  */
-export function instanceOfOTPRequest(value: object): value is OTPRequest {
+export function instanceOfUser(value: object): value is User {
+    if (!('id' in value) || value['id'] === undefined) return false;
     if (!('email' in value) || value['email'] === undefined) return false;
     if (!('language' in value) || value['language'] === undefined) return false;
     return true;
 }
 
-export function OTPRequestFromJSON(json: any): OTPRequest {
-    return OTPRequestFromJSONTyped(json, false);
+export function UserFromJSON(json: any): User {
+    return UserFromJSONTyped(json, false);
 }
 
-export function OTPRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): OTPRequest {
+export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
     if (json == null) {
         return json;
     }
     return {
         
+        'id': json['id'],
         'email': json['email'],
         'language': LanguageFromJSON(json['language']),
     };
 }
 
-export function OTPRequestToJSON(json: any): OTPRequest {
-    return OTPRequestToJSONTyped(json, false);
+export function UserToJSON(json: any): User {
+    return UserToJSONTyped(json, false);
 }
 
-export function OTPRequestToJSONTyped(value?: OTPRequest | null, ignoreDiscriminator: boolean = false): any {
+export function UserToJSONTyped(value?: User | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
+        'id': value['id'],
         'email': value['email'],
         'language': LanguageToJSON(value['language']),
     };

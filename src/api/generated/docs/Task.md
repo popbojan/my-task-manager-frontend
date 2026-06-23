@@ -12,7 +12,6 @@ Name | Type
 `status` | [TaskStatus](TaskStatus.md)
 `priority` | [TaskPriority](TaskPriority.md)
 `deadline` | Date
-`email` | string
 `createdAt` | Date
 `updatedAt` | Date
 
@@ -29,7 +28,6 @@ const example = {
   "status": null,
   "priority": null,
   "deadline": 2026-05-10T00:00Z,
-  "email": null,
   "createdAt": null,
   "updatedAt": null,
 } satisfies Task

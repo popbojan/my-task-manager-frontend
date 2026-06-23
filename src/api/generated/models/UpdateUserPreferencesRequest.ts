@@ -24,19 +24,13 @@ import {
 /**
  * 
  * @export
- * @interface OTPRequest
+ * @interface UpdateUserPreferencesRequest
  */
-export interface OTPRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof OTPRequest
-     */
-    email: string;
+export interface UpdateUserPreferencesRequest {
     /**
      * 
      * @type {Language}
-     * @memberof OTPRequest
+     * @memberof UpdateUserPreferencesRequest
      */
     language: Language;
 }
@@ -44,41 +38,38 @@ export interface OTPRequest {
 
 
 /**
- * Check if a given object implements the OTPRequest interface.
+ * Check if a given object implements the UpdateUserPreferencesRequest interface.
  */
-export function instanceOfOTPRequest(value: object): value is OTPRequest {
-    if (!('email' in value) || value['email'] === undefined) return false;
+export function instanceOfUpdateUserPreferencesRequest(value: object): value is UpdateUserPreferencesRequest {
     if (!('language' in value) || value['language'] === undefined) return false;
     return true;
 }
 
-export function OTPRequestFromJSON(json: any): OTPRequest {
-    return OTPRequestFromJSONTyped(json, false);
+export function UpdateUserPreferencesRequestFromJSON(json: any): UpdateUserPreferencesRequest {
+    return UpdateUserPreferencesRequestFromJSONTyped(json, false);
 }
 
-export function OTPRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): OTPRequest {
+export function UpdateUserPreferencesRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateUserPreferencesRequest {
     if (json == null) {
         return json;
     }
     return {
         
-        'email': json['email'],
         'language': LanguageFromJSON(json['language']),
     };
 }
 
-export function OTPRequestToJSON(json: any): OTPRequest {
-    return OTPRequestToJSONTyped(json, false);
+export function UpdateUserPreferencesRequestToJSON(json: any): UpdateUserPreferencesRequest {
+    return UpdateUserPreferencesRequestToJSONTyped(json, false);
 }
 
-export function OTPRequestToJSONTyped(value?: OTPRequest | null, ignoreDiscriminator: boolean = false): any {
+export function UpdateUserPreferencesRequestToJSONTyped(value?: UpdateUserPreferencesRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'email': value['email'],
         'language': LanguageToJSON(value['language']),
     };
 }

@@ -7,6 +7,7 @@
 Name | Type
 ------------ | -------------
 `email` | string
+`language` | [Language](Language.md)
 
 ## Example
 
@@ -16,6 +17,7 @@ import type { OTPRequest } from ''
 // TODO: Update the object below with actual values
 const example = {
   "email": user@example.com,
+  "language": null,
 } satisfies OTPRequest
 
 console.log(example)
